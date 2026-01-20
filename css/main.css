@@ -1667,7 +1667,7 @@ section > .container {
 }
 
 /* ============================================
-   RESPONSIVO (MOBILE) - AJUSTADO / FORÇADO
+   RESPONSIVO (MOBILE) - AJUSTADO
    ============================================ */
 
 @media (max-width: 768px) {
@@ -1688,6 +1688,7 @@ section > .container {
         display: block;
     }
 
+    /* garante que apenas o clique no menu abra/feche */
     .whatsapp-float {
         pointer-events: auto;
     }
@@ -1701,7 +1702,7 @@ section > .container {
     }
 
     .hero-logo {
-        width: 120px;
+        width: 120px;          /* diminui no mobile */
         margin-bottom: 18px;
     }
 
@@ -1726,48 +1727,35 @@ section > .container {
         justify-content: center;
     }
 
-    /* ---------- SOBRE NÓS (FORÇADO MOBILE) ---------- */
-
+    /* ---------- SOBRE NÓS - MOBILE: TEXTO > FOTO > INDICADORES ---------- */
     .sobre-content {
-        display: flex !important;
-        flex-direction: column !important;
+        display: flex;
+        flex-direction: column;
         gap: 24px;
-        max-width: 100% !important;
-        overflow-x: hidden !important;
     }
 
     /* ordem correta: texto > foto > indicadores */
-    .sobre-text {
-        order: 1 !important;
-    }
+    .sobre-text { order: 1; }
+    .sobre-images { order: 2; }
+    .sobre-stats { order: 3; }
 
-    .sobre-images {
-        order: 2 !important;
-        max-width: 100% !important;
-        overflow: hidden !important;
-    }
-
-    .sobre-stats {
-        order: 3 !important;
-        grid-template-columns: 1fr;
-        gap: 20px;
-        width: 100% !important;
-    }
-
-    /* esconde fotos secundárias */
+    /* esconde fotos individuais no mobile */
     .sobre-images .image-secondary {
         display: none;
     }
 
+    /* foto dos sócios */
     .img-main {
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 100%;
+        max-width: 100%;
         max-height: 260px;
         object-fit: cover;
-        display: block;
     }
 
-    .section-header,
+    .section-header {
+        text-align: center;
+    }
+
     .section-title,
     .section-subtitle {
         text-align: center;
@@ -1775,6 +1763,11 @@ section > .container {
 
     .sobre-text p {
         text-align: justify;
+    }
+
+    .sobre-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     /* ---------- FORMULÁRIO / CONTATO ---------- */
@@ -1812,6 +1805,7 @@ section > .container {
         margin-top: 8px;
     }
 
+    /* coluna do celular à direita vira bloco abaixo do form */
     .phone-col {
         height: auto;
         justify-content: center;
@@ -1842,40 +1836,33 @@ section > .container {
         padding: 8px 12px;
     }
 
+    /* info boxes (endereço, email, telefone) empilhados */
     .info-boxes {
         grid-template-columns: 1fr;
         gap: 12px;
-        width: 100% !important;
     }
 
     .info-item {
         padding: 18px 14px;
     }
 
-    /* ---------- BLOQUEIO TOTAL DE SCROLL HORIZONTAL ---------- */
-
-    html,
-    body {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    /* ---------- EVITAR SCROLL HORIZONTAL ---------- */
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
     }
 
-    section,
-    .container,
-    .hero,
-    .header,
-    .footer {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    img, section, .container, .hero, .header, .footer {
+        max-width: 100%;
     }
 
-    img {
-        max-width: 100% !important;
-        height: auto !important;
-        display: block;
+    .header-container {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
     }
 
-    /* ---------- SEÇÕES GERAIS ---------- */
+    /* ---------- SEÇÕES GERAIS / TÍTULOS ---------- */
 
     section {
         padding: 60px 0;
@@ -1891,18 +1878,19 @@ section > .container {
         text-align: justify;
     }
 
+    /* ---------- SERVIÇOS / OUTROS / PROJETOS ---------- */
+
     .servicos-grid,
     .outros-grid,
     .projetos-grid {
         grid-template-columns: 1fr;
-        width: 100% !important;
     }
 
     .outro-item {
         padding: 22px 18px;
     }
 
-    /* ---------- MODAL ---------- */
+    /* ---------- MODAL GOOGLE FORMS ---------- */
 
     .modal-content {
         max-height: 95vh;

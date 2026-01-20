@@ -1666,6 +1666,8 @@ section > .container {
     padding: 40px 20px;
 }
 
+
+
 /* ============================================
    RESPONSIVO (MOBILE)
    ============================================ */
@@ -1746,33 +1748,12 @@ section > .container {
         grid-template-columns: 1fr;
     }
 
-    /* Modal Google Forms - Mobile */
-    .modal-content {
-        max-height: 95vh;
-        border-radius: 20px;
-    }
-
     .modal-body {
-        padding: 45px 20px 20px;
-    }
-
-    .modal-body h3 {
-        font-size: 26px;
-    }
-
-    .modal-body p {
-        font-size: 14px;
-        margin-bottom: 20px;
+        padding: 50px 24px 24px;
     }
 
     .google-form-container {
         padding: 12px;
-        max-height: 75vh;
-    }
-
-    .google-form-container iframe {
-        height: 550px;
-        transform: scale(0.88);
     }
 }
 

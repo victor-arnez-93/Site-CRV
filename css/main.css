@@ -1670,10 +1670,10 @@ section > .container {
    AJUSTES FINAIS MOBILE (ORDENS + GRIDS)
    ============================================ */
 
+/* ---------- MOBILE GERAL ---------- */
 @media (max-width: 768px) {
 
-    /* ---------- SOBRE NÓS: ORDEM CORRETA ---------- */
-
+    /* SOBRE NÓS */
     .sobre-content {
         display: flex !important;
         flex-direction: column !important;
@@ -1682,16 +1682,12 @@ section > .container {
         overflow-x: hidden !important;
     }
 
-    .sobre-text {
-        order: 1 !important;
-    }
-
+    .sobre-text { order: 1 !important; }
     .sobre-images {
         order: 2 !important;
         max-width: 100% !important;
         overflow: hidden !important;
     }
-
     .sobre-stats {
         order: 3 !important;
         width: 100% !important;
@@ -1700,8 +1696,7 @@ section > .container {
         gap: 16px;
     }
 
-    /* ---------- MISSÃO / VISÃO / VALORES ---------- */
-
+    /* MISSÃO / VISÃO / VALORES */
     .missao-visao-grid {
         display: grid !important;
         grid-template-columns: 1fr !important;
@@ -1715,15 +1710,7 @@ section > .container {
         max-width: 100% !important;
     }
 
-    /* telas um pouco maiores: 2 por linha */
-    @media (min-width: 480px) {
-        .missao-visao-grid {
-            grid-template-columns: 1fr 1fr !important;
-        }
-    }
-
-    /* ---------- POR QUE ESCOLHER A CRV ---------- */
-
+    /* POR QUE ESCOLHER */
     .porque-grid {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -1737,8 +1724,7 @@ section > .container {
         max-width: 100% !important;
     }
 
-    /* ---------- STATUS (CONCLUÍDO / EM ANDAMENTO) ---------- */
-
+    /* STATUS */
     .status-badge,
     .projeto-status,
     .tag-status {
@@ -1749,17 +1735,13 @@ section > .container {
         text-align: center;
     }
 
-    /* ---------- BLOQUEIO DE SCROLL HORIZONTAL ---------- */
-
-    html,
-    body {
+    /* BLOQUEIO SCROLL */
+    html, body {
         max-width: 100% !important;
         overflow-x: hidden !important;
     }
 
-    section,
-    .container,
-    img {
+    section, .container, img {
         max-width: 100% !important;
         overflow-x: hidden !important;
     }
@@ -1767,6 +1749,14 @@ section > .container {
     img {
         height: auto !important;
         display: block;
+    }
+}
+
+/* ---------- MOBILE MÉDIO (480px+) ---------- */
+@media (min-width: 480px) and (max-width: 768px) {
+
+    .missao-visao-grid {
+        grid-template-columns: 1fr 1fr !important;
     }
 
 }

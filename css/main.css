@@ -1666,25 +1666,27 @@ section > .container {
     padding: 40px 20px;
 }
 
-
-
 /* ============================================
    RESPONSIVO (MOBILE)
    ============================================ */
 
 @media (max-width: 1024px) {
     .sobre-content {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 40px;
+        display: flex !important;
+        flex-direction: column-reverse !important; /* Foto ANTES dos indicadores */
     }
 
     .contato-wrapper {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        align-items: stretch !important;
     }
 
     .smartphone-mockup {
         margin: 0 auto;
-        max-width: 280px;
+        max-width: 260px !important; /* Diminuído */
     }
 
     .mvv-grid-compact {
@@ -1702,20 +1704,29 @@ section > .container {
     .info-boxes {
         grid-template-columns: 1fr;
     }
+
+    .hero-subtitle {
+        text-align: center !important;
+    }
 }
 
 @media (max-width: 768px) {
     .nav-desktop,
     .header-actions {
-        display: none;
+        display: none !important;
     }
 
     .menu-toggle {
-        display: flex;
+        display: flex !important;
     }
 
     .nav-mobile {
-        display: block;
+        display: block !important;
+    }
+
+    /* Hamburguer abre/fechar menu (remove link WhatsApp) */
+    .menu-toggle {
+        pointer-events: auto !important;
     }
 
     .hero {
@@ -1723,54 +1734,90 @@ section > .container {
     }
 
     section {
-        padding: 60px 0;
+        padding: 60px 0 !important;
     }
 
     .sobre-stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .image-secondary {
-        grid-template-columns: 1fr;
+        display: none !important; /* Remove fotos individuais */
+    }
+
+    /* Centraliza SOLUÇÕES EM TI... */
+    .hero-subtitle {
+        justify-content: center !important;
+        text-align: center !important;
     }
 
     .servicos-grid,
     .outros-grid,
     .projetos-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .form-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .porque-grid-inline {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+    }
+
+    .contato-left-col {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    .contato-form-wrapper {
+        order: 1 !important;
+    }
+
+    .info-boxes {
+        order: 2 !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 12px !important;
+    }
+
+    .phone-col {
+        order: 3 !important;
+        align-self: stretch !important;
     }
 
     .modal-body {
-        padding: 50px 24px 24px;
+        padding: 50px 24px 24px !important;
     }
 
     .google-form-container {
-        padding: 12px;
+        padding: 12px !important;
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding: 0 16px;
+        padding: 0 16px !important;
     }
 
     .smartphone-mockup {
-        max-width: 220px;
+        max-width: 200px !important; /* Mais diminuído em telas pequenas */
+    }
+
+    .info-boxes {
+        grid-template-columns: 1fr !important; /* Stack em muito pequeno */
+        gap: 16px !important;
+    }
+
+    .hero-subtitle {
+        font-size: 14px !important; /* Ajuste texto duplicado */
     }
 
     .modal {
-        padding: 10px;
+        padding: 10px !important;
     }
 
     .modal-content {
-        border-radius: 20px;
+        border-radius: 20px !important;
     }
 }

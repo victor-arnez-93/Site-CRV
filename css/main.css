@@ -1667,77 +1667,67 @@ section > .container {
 }
 
 /* ============================================
-   AJUSTES FINAIS MOBILE (ALINHADO AO HTML REAL)
+   AJUSTES FINAIS MOBILE (ORDENS + GRIDS)
    ============================================ */
 
 /* ---------- MOBILE GERAL ---------- */
 @media (max-width: 768px) {
 
-    /* HERO – trava logo gigante */
-    .hero {
-        height: auto !important;
-        min-height: auto !important;
-        padding-top: 120px;
-        padding-bottom: 60px;
-        overflow: hidden;
-    }
-
-    .hero-logo {
-        max-width: 160px !important;
-        max-height: 160px !important;
-        width: auto !important;
-        height: auto !important;
-        margin: 0 auto 16px;
-        display: block;
-    }
-
-    /* SOBRE NÓS — ordem correta */
+    /* SOBRE NÓS */
     .sobre-content {
         display: flex !important;
         flex-direction: column !important;
         gap: 24px;
         max-width: 100% !important;
+        overflow-x: hidden !important;
     }
 
     .sobre-text { order: 1 !important; }
-    .sobre-images { order: 2 !important; }
-    .sobre-stats { order: 3 !important; }
-
+    .sobre-images {
+        order: 2 !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+    }
     .sobre-stats {
+        order: 3 !important;
+        width: 100% !important;
+        margin-top: 8px;
         grid-template-columns: 1fr !important;
         gap: 16px;
-        margin-top: 8px;
     }
 
-    /* MISSÃO / VISÃO / VALORES (CORRETO) */
-    .mvv-grid-compact {
+    /* MISSÃO / VISÃO / VALORES */
+    .missao-visao-grid {
         display: grid !important;
         grid-template-columns: 1fr !important;
         gap: 16px;
         width: 100% !important;
     }
 
-    .mvv-card-compact {
+    .missao-visao-card {
         padding: 18px 14px !important;
         text-align: center;
         max-width: 100% !important;
     }
 
-    /* POR QUE ESCOLHER (CORRETO) */
-    .porque-grid-inline {
+    /* POR QUE ESCOLHER */
+    .porque-grid {
         display: grid !important;
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
         gap: 16px;
         width: 100% !important;
     }
 
-    .porque-item-inline {
+    .porque-item {
         padding: 16px 14px !important;
         text-align: center;
+        max-width: 100% !important;
     }
 
-    /* STATUS / BADGES */
-    .projeto-badge {
+    /* STATUS */
+    .status-badge,
+    .projeto-status,
+    .tag-status {
         margin-left: auto !important;
         margin-right: auto !important;
         display: inline-flex !important;
@@ -1745,34 +1735,28 @@ section > .container {
         text-align: center;
     }
 
-    /* BLOQUEIO SCROLL HORIZONTAL */
+    /* BLOQUEIO SCROLL */
     html, body {
-        width: 100%;
+        max-width: 100% !important;
         overflow-x: hidden !important;
     }
 
-    section, .container {
+    section, .container, img {
         max-width: 100% !important;
-        overflow-x: hidden;
+        overflow-x: hidden !important;
     }
 
     img {
-        max-width: 100%;
-        height: auto;
+        height: auto !important;
         display: block;
     }
 }
 
-/* ---------- MOBILE MÉDIO ---------- */
+/* ---------- MOBILE MÉDIO (480px+) ---------- */
 @media (min-width: 480px) and (max-width: 768px) {
 
-    .mvv-grid-compact {
-        grid-template-columns: 1fr 1fr !important;
-    }
-
-    .porque-grid-inline {
+    .missao-visao-grid {
         grid-template-columns: 1fr 1fr !important;
     }
 
 }
-

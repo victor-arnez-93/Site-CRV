@@ -1699,16 +1699,15 @@ section > .container {
     order: 3 !important; /* Coloca o hambúrguer à direita */
   }
 
-  /* Header actions - Mantém apenas WhatsApp no mobile */
+  /* Header actions - Esconde WhatsApp no mobile (já tem o flutuante) */
   .header-actions {
-    order: 2 !important;
-    margin-left: auto !important;
+    display: none !important;
   }
 
-  .header-actions .btn-primary {
-    display: inline-flex !important;
-    padding: 10px 16px !important;
-    font-size: 14px !important;
+  /* Menu hambúrguer à direita */
+  .menu-toggle {
+    order: 2 !important;
+    margin-left: auto !important;
   }
 
   /* Navegação Mobile - ajuste */

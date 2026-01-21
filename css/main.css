@@ -1667,7 +1667,7 @@ section > .container {
 }
 
 /* ============================================
-   MOBILE – LAYOUT BÁSICO E LIMPO
+   MOBILE – LAYOUT BÁSICO E LIMPO (FINAL)
    ============================================ */
 
 @media (max-width: 768px) {
@@ -1712,6 +1712,12 @@ section > .container {
 
     /* ---------- HERO ---------- */
 
+    /* abaixa um pouco a logo animada */
+    .hero-logo {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
     .hero-title {
         font-size: 26px;
         text-align: center;
@@ -1730,7 +1736,7 @@ section > .container {
         margin-bottom: 30px;
     }
 
-    /* ---------- SOBRE NÓS (ÚNICA ORDEM ESPECIAL) ---------- */
+    /* ---------- SOBRE NÓS ---------- */
 
     .sobre-content {
         display: flex;
@@ -1738,12 +1744,6 @@ section > .container {
         gap: 28px;
         text-align: center;
     }
-
-    /* ordem correta */
-    .section-header { order: 1; }
-    .sobre-text    { order: 2; }
-    .sobre-images  { order: 3; }
-    .sobre-stats   { order: 4; }
 
     /* esconder fotos individuais */
     .image-secondary {
@@ -1756,9 +1756,11 @@ section > .container {
         margin: 0 auto;
     }
 
+    /* indicadores sempre abaixo */
     .sobre-stats {
         grid-template-columns: 1fr;
         gap: 16px;
+        margin-top: 16px;
     }
 
     /* ---------- SEÇÕES EM GERAL ---------- */
@@ -1771,7 +1773,7 @@ section > .container {
         grid-template-columns: 1fr;
     }
 
-    /* ---------- CONTATO ---------- */
+    /* ---------- CONTATO (CORREÇÃO DEFINITIVA) ---------- */
 
     .contato-wrapper {
         display: flex;
@@ -1779,18 +1781,23 @@ section > .container {
         gap: 32px;
     }
 
+    /* form + infos */
     .contato-left-col {
         display: flex;
         flex-direction: column;
         gap: 24px;
     }
 
+    /* infos abaixo do form */
     .info-boxes {
+        display: grid;
         grid-template-columns: 1fr;
         gap: 16px;
     }
 
+    /* celular SEMPRE por último */
     .phone-col {
+        order: 3;
         max-width: 240px;
         margin: 0 auto;
     }
@@ -1801,4 +1808,3 @@ section > .container {
         z-index: 500;
     }
 }
-

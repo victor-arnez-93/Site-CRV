@@ -1666,4 +1666,139 @@ section > .container {
     padding: 40px 20px;
 }
 
+/* ============================================
+   MOBILE – LAYOUT BÁSICO E LIMPO
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* ---------- VIEWPORT / SEGURANÇA ---------- */
+
+    html, body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    section, .container {
+        max-width: 100%;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* ---------- HEADER ---------- */
+
+    .nav-desktop,
+    .header-actions {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: flex;
+        z-index: 1000;
+    }
+
+    .nav-mobile {
+        display: block;
+    }
+
+    /* WhatsApp do header some */
+    .header .whatsapp-float {
+        display: none;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .hero-title {
+        font-size: 26px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .hero-text {
+        font-size: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    /* ---------- SOBRE NÓS (ÚNICA ORDEM ESPECIAL) ---------- */
+
+    .sobre-content {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        text-align: center;
+    }
+
+    /* ordem correta */
+    .section-header { order: 1; }
+    .sobre-text    { order: 2; }
+    .sobre-images  { order: 3; }
+    .sobre-stats   { order: 4; }
+
+    /* esconder fotos individuais */
+    .image-secondary {
+        display: none;
+    }
+
+    .img-main {
+        max-height: 260px;
+        object-fit: cover;
+        margin: 0 auto;
+    }
+
+    .sobre-stats {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* ---------- SEÇÕES EM GERAL ---------- */
+
+    .servicos-grid,
+    .outros-grid,
+    .projetos-grid,
+    .porque-grid-inline,
+    .mvv-grid-compact {
+        grid-template-columns: 1fr;
+    }
+
+    /* ---------- CONTATO ---------- */
+
+    .contato-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .contato-left-col {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .info-boxes {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .phone-col {
+        max-width: 240px;
+        margin: 0 auto;
+    }
+
+    /* ---------- WHATSAPP FLUTUANTE ---------- */
+
+    .whatsapp-float {
+        z-index: 500;
+    }
+}
 

@@ -1781,37 +1781,46 @@ section > .container {
     .projetos-grid,
     .porque-grid-inline,
     .mvv-grid-compact {
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
     }
 
-    /* ---------- CONTATO (CORREÇÃO DEFINITIVA) ---------- */
+ /* CONTATO — RESET DE LAYOUT DESKTOP */
+  .contato-wrapper,
+  .contato-left-col,
+  .phone-col,
+  .smartphone-mockup,
+  .phone-device {
+      position: static !important;
+      height: auto !important;
+      min-height: 0 !important;
+  }
 
-    .contato-wrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-    }
+  /* EMPILHAMENTO REAL */
+  .contato-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 32px;
+  }
 
-    /* form + infos */
-    .contato-left-col {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-    }
+  .contato-left-col {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 24px;
+  }
 
-    /* infos abaixo do form */
-    .info-boxes {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
+  /* infos abaixo do form */
+  .info-boxes {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 16px;
+  }
 
-    /* celular SEMPRE por último */
-    .phone-col {
-        order: 3;
-        max-width: 240px;
-        margin: 0 auto;
-    }
+  /* celular por último */
+  .phone-col {
+      max-width: 240px;
+      margin: 0 auto;
+  }
+}
 
     /* ---------- WHATSAPP FLUTUANTE ---------- */
 

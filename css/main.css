@@ -1666,3 +1666,322 @@ section > .container {
     padding: 40px 20px;
 }
 
+/* ============================================
+   RESPONSIVO MOBILE (max-width: 768px)
+   Mantém todo design desktop intacto
+   ============================================ */
+
+@media only screen and (max-width: 768px) {
+  /* Container principal */
+  .container {
+    padding: 0 16px !important;
+    max-width: 100% !important;
+  }
+
+  /* HEADER */
+  .header-container {
+    padding: 12px 16px !important;
+    gap: 16px !important;
+  }
+
+  .logo {
+    height: 48px !important;
+  }
+
+  /* Esconde navegação desktop */
+  .nav-desktop {
+    display: none !important;
+  }
+
+  /* Mostra botão menu mobile */
+  .menu-toggle {
+    display: flex !important;
+  }
+
+  /* Navegação Mobile - ajuste */
+  .nav-mobile {
+    display: block !important;
+    top: 80px !important;
+    padding: 20px !important;
+  }
+
+  /* Ajuste header actions no mobile */
+  .header-actions .btn-primary {
+    display: none !important;
+  }
+
+  /* HERO SECTION */
+  .hero {
+    min-height: 85vh !important;
+    padding: 60px 0 !important;
+  }
+
+  .hero-logo {
+    width: 140px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .hero-title {
+    font-size: 36px !important;
+  }
+
+  .hero-subtitle {
+    font-size: 16px !important;
+    letter-spacing: 1px !important;
+  }
+
+  .hero-text {
+    font-size: 16px !important;
+    margin-bottom: 30px !important;
+  }
+
+  .hero-buttons {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .hero-buttons .btn-cta,
+  .hero-buttons .btn-cta-secondary {
+    width: 100% !important;
+  }
+
+  /* SEÇÕES GERAIS */
+  section {
+    padding: 60px 0 !important;
+  }
+
+  .section-header {
+    margin-bottom: 40px !important;
+  }
+
+  .section-title {
+    font-size: 32px !important;
+  }
+
+  .section-subtitle {
+    font-size: 16px !important;
+    padding: 0 10px !important;
+  }
+
+  /* SOBRE NÓS */
+  .sobre-content {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  .sobre-stats {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+    margin-top: 24px !important;
+  }
+
+  .stat-item {
+    padding: 16px 12px !important;
+  }
+
+  .stat-item i {
+    font-size: 32px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .stat-item h3 {
+    font-size: 24px !important;
+  }
+
+  .image-secondary {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* MISSÃO, VISÃO, VALORES */
+  .mvv-grid-compact {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    margin-bottom: 40px !important;
+  }
+
+  .mvv-card-compact {
+    padding: 24px !important;
+  }
+
+  .porque-grid-inline {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  .porque-crv-inline {
+    padding: 24px !important;
+  }
+
+  /* SERVIÇOS */
+  .servicos-grid {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+    margin-bottom: 40px !important;
+  }
+
+  .servico-card {
+    padding: 30px 20px !important;
+  }
+
+  .outros-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  .outros-servicos {
+    padding: 30px 20px !important;
+  }
+
+  .outro-item {
+    padding: 20px 12px !important;
+  }
+
+  .outro-item i {
+    font-size: 32px !important;
+  }
+
+  /* PROJETOS */
+  .projetos-grid {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  .projeto-card {
+    margin-bottom: 20px !important;
+  }
+
+  /* CONTATO */
+  .contato-wrapper {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  /* Ajuste do formulário */
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .contato-form-wrapper {
+    padding: 24px 20px !important;
+  }
+
+  /* Info boxes abaixo do formulário - 2 colunas */
+  .info-boxes {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Celular - reduz tamanho */
+  .phone-col {
+    order: -1 !important; /* Coloca o celular acima no mobile */
+    margin-bottom: 30px !important;
+  }
+
+  .smartphone-mockup {
+    max-width: 280px !important;
+    margin: 0 auto !important;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 30px 0 !important;
+  }
+
+  .footer-logo img {
+    width: 120px !important;
+  }
+
+  /* MODAL */
+  .modal {
+    padding: 10px !important;
+  }
+
+  .modal-content {
+    max-height: 95vh !important;
+  }
+
+  .modal-body {
+    padding: 40px 16px 24px !important;
+  }
+
+  /* WHATSAPP FLOAT */
+  .whatsapp-float {
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .whatsapp-float i {
+    font-size: 28px !important;
+  }
+}
+
+/* ============================================
+   RESPONSIVO MOBILE PEQUENO (max-width: 480px)
+   ============================================ */
+@media only screen and (max-width: 480px) {
+  .hero-title {
+    font-size: 30px !important;
+  }
+
+  .hero-subtitle {
+    font-size: 14px !important;
+  }
+
+  .sobre-stats {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .stat-item {
+    padding: 20px !important;
+  }
+
+  .porque-grid-inline {
+    grid-template-columns: 1fr !important;
+  }
+
+  .outros-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .info-boxes {
+    grid-template-columns: 1fr !important;
+  }
+
+  .smartphone-mockup {
+    max-width: 250px !important;
+  }
+}
+
+/* ============================================
+   CORREÇÕES ESPECÍFICAS PARA SEU LAYOUT
+   ============================================ */
+@media only screen and (max-width: 768px) {
+  /* Garante que todos os textos justificados ficam legíveis */
+  p, .lead, .hero-text, .section-subtitle,
+  .sobre-text p, .mvv-card-compact p,
+  .servico-card p, .projeto-info p,
+  .outro-item p, .info-content p {
+    text-align: left !important;
+    hyphens: auto !important;
+    word-wrap: break-word !important;
+  }
+
+  /* Ajuste específico para a seção "Por que CRV" */
+  .porque-item-inline {
+    padding: 20px 12px !important;
+  }
+
+  .porque-item-inline i {
+    font-size: 32px !important;
+  }
+
+  /* Ajuste para o layout de contato no mobile */
+  .contato-left-col {
+    height: auto !important;
+  }
+}

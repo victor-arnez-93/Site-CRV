@@ -1667,157 +1667,99 @@ section > .container {
 }
 
 /* ============================================
-   RESPONSIVO (MOBILE)
+   RESPONSIVO (MOBILE) - CORREÇÕES FINAIS
    ============================================ */
 
 @media (max-width: 1024px) {
     .sobre-content {
         grid-template-columns: 1fr !important;
-        gap: 40px;
         display: flex !important;
-        flex-direction: column-reverse !important; /* Foto ANTES dos indicadores */
+        flex-direction: column !important; /* TEXTO > FOTO > INDICADORES */
+        gap: 40px !important;
     }
-
     .contato-wrapper {
         grid-template-columns: 1fr !important;
         gap: 24px !important;
-        align-items: stretch !important;
     }
-
     .smartphone-mockup {
-        margin: 0 auto;
-        max-width: 260px !important; /* Diminuído */
+        max-width: 240px !important;
     }
-
-    .mvv-grid-compact {
-        grid-template-columns: 1fr;
-    }
-
-    .porque-grid-inline {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .outros-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .info-boxes {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-subtitle {
-        text-align: center !important;
-    }
+    .mvv-grid-compact { grid-template-columns: 1fr; }
+    .porque-grid-inline { grid-template-columns: repeat(2, 1fr); }
+    .outros-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-    .nav-desktop,
-    .header-actions {
-        display: none !important;
-    }
-
+    /* MENU: hamburguer SEM WhatsApp */
+    .nav-desktop, .header-actions { display: none !important; }
     .menu-toggle {
         display: flex !important;
-    }
-
-    .nav-mobile {
-        display: block !important;
-    }
-
-    /* Hamburguer abre/fechar menu (remove link WhatsApp) */
-    .menu-toggle {
         pointer-events: auto !important;
     }
+    .nav-mobile { display: block !important; }
 
-    .hero {
-        min-height: 500px;
+    /* HERO: logo BAIXA + ESPAÇO textos */
+    .hero-logo {
+        margin-bottom: 70px !important;
+        width: 130px !important;
+        transform: translateY(-30px) !important;
     }
-
-    section {
-        padding: 60px 0 !important;
-    }
-
-    .sobre-stats {
-        grid-template-columns: 1fr !important;
-    }
-
-    .image-secondary {
-        display: none !important; /* Remove fotos individuais */
-    }
-
-    /* Centraliza SOLUÇÕES EM TI... */
+    .hero-title { margin-bottom: 40px !important; }
     .hero-subtitle {
-        justify-content: center !important;
+        font-size: 15px !important;
+        margin-bottom: 30px !important;
+        letter-spacing: 0.5px !important;
         text-align: center !important;
     }
+    .hero-text { margin-bottom: 50px !important; }
 
-    .servicos-grid,
-    .outros-grid,
-    .projetos-grid {
+    section { padding: 60px 0 !important; }
+
+    /* SOBRE: ordem TEXTO > FOTO > INDICADORES */
+    .sobre-text { order: 1 !important; }
+    .sobre-images { order: 2 !important; }
+    .sobre-stats {
+        order: 3 !important;
         grid-template-columns: 1fr !important;
+        margin-top: 0 !important;
     }
+    .image-secondary { display: none !important; }
 
-    .form-row {
-        grid-template-columns: 1fr !important;
-    }
-
-    .porque-grid-inline {
-        grid-template-columns: 1fr !important;
-    }
-
+    /* CONTATO: form > info > celular PEQUENO */
     .contato-left-col {
+        order: 1 !important;
         display: flex !important;
         flex-direction: column !important;
         gap: 20px !important;
     }
-
-    .contato-form-wrapper {
-        order: 1 !important;
-    }
-
     .info-boxes {
         order: 2 !important;
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 12px !important;
     }
-
     .phone-col {
         order: 3 !important;
-        align-self: stretch !important;
+        max-width: 260px !important;
+        margin: 0 auto !important;
     }
+    /* CELULAR: conteúdo interno MENOR */
+    .phone-logo { width: 120px !important; }
+    .phone-text { font-size: 16px !important; }
+    .social-btn-phone {
+        font-size: 12px !important;
+        padding: 8px 12px !important;
+    }
+    .phone-content { padding: 8px !important; padding-top: 30px !important; }
 
-    .modal-body {
-        padding: 50px 24px 24px !important;
-    }
-
-    .google-form-container {
-        padding: 12px !important;
-    }
+    .servicos-grid, .outros-grid, .projetos-grid { grid-template-columns: 1fr !important; }
+    .form-row { grid-template-columns: 1fr !important; }
+    .porque-grid-inline { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 16px !important;
-    }
-
-    .smartphone-mockup {
-        max-width: 200px !important; /* Mais diminuído em telas pequenas */
-    }
-
-    .info-boxes {
-        grid-template-columns: 1fr !important; /* Stack em muito pequeno */
-        gap: 16px !important;
-    }
-
-    .hero-subtitle {
-        font-size: 14px !important; /* Ajuste texto duplicado */
-    }
-
-    .modal {
-        padding: 10px !important;
-    }
-
-    .modal-content {
-        border-radius: 20px !important;
-    }
+    .container { padding: 0 16px !important; }
+    .hero-logo { width: 110px !important; margin-bottom: 60px !important; }
+    .smartphone-mockup { max-width: 200px !important; }
+    .info-boxes { grid-template-columns: 1fr !important; gap: 16px !important; }
 }
+

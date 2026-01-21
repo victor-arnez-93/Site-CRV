@@ -1736,32 +1736,43 @@ section > .container {
         margin-bottom: 30px;
     }
 
-    /* ---------- SOBRE NÓS ---------- */
+  /* SOBRE NÓS — ORDEM MOBILE CORRETA */
+  .sobre-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-areas:
+          "texto"
+          "foto"
+          "stats";
+      gap: 28px;
+      text-align: center;
+  }
 
-    .sobre-content {
-        display: flex;
-        flex-direction: column;
-        gap: 28px;
-        text-align: center;
-    }
+  .sobre-text {
+      grid-area: texto;
+  }
 
-    /* esconder fotos individuais */
-    .image-secondary {
-        display: none;
-    }
+  .sobre-images {
+      grid-area: foto;
+  }
 
-    .img-main {
-        max-height: 260px;
-        object-fit: cover;
-        margin: 0 auto;
-    }
+  .sobre-stats {
+      grid-area: stats;
+      grid-template-columns: 1fr;
+      gap: 16px;
+  }
 
-    /* indicadores sempre abaixo */
-    .sobre-stats {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        margin-top: 16px;
-    }
+  /* esconder fotos individuais */
+  .image-secondary {
+      display: none;
+  }
+
+  .img-main {
+      max-height: 260px;
+      margin: 0 auto;
+      object-fit: cover;
+  }
+}
 
     /* ---------- SEÇÕES EM GERAL ---------- */
 

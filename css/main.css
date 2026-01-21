@@ -703,15 +703,9 @@ section > .container {
 
 .stat-item h3 {
     font-family: var(--font-accent);
-    font-size: 28px;          /* ↓ reduz apenas o impacto */
+    font-size: 36px;
     color: var(--cor-secundaria);
     margin-bottom: 8px;
-    line-height: 1.2;
-    min-height: 64px;         /* força igualdade entre os cards */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
 }
 
 .stat-item p {

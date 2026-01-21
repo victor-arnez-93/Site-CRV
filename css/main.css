@@ -1678,7 +1678,7 @@ section > .container {
     max-width: 100% !important;
   }
 
-  /* HEADER - Correção do menu hambúrguer */
+  /* HEADER CORRIGIDO */
   .header-container {
     padding: 12px 16px !important;
     gap: 16px !important;
@@ -1688,29 +1688,23 @@ section > .container {
     height: 48px !important;
   }
 
-  /* Esconde navegação desktop */
+  /* Esconde navegação desktop no mobile */
   .nav-desktop {
     display: none !important;
   }
 
-  /* Mostra botão menu mobile */
+  /* Mostra menu hambúrguer */
   .menu-toggle {
     display: flex !important;
-    order: 3 !important; /* Coloca o hambúrguer à direita */
+    margin-left: auto !important; /* Coloca à direita */
   }
 
-  /* Header actions - Esconde WhatsApp no mobile (já tem o flutuante) */
+  /* Esconde o botão WhatsApp do header no mobile */
   .header-actions {
     display: none !important;
   }
 
-  /* Menu hambúrguer à direita */
-  .menu-toggle {
-    order: 2 !important;
-    margin-left: auto !important;
-  }
-
-  /* Navegação Mobile - ajuste */
+  /* Ajuste da navegação mobile */
   .nav-mobile {
     display: block !important;
     top: 80px !important;
@@ -1788,25 +1782,28 @@ section > .container {
     padding: 0 10px !important;
   }
 
-  /* SOBRE NÓS - Reordenação */
+  /* SOBRE NÓS - Ordem CORRETA: 1.Texto → 2.Foto → 3.Indicadores */
   .sobre-content {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
-  /* Ordem: Título -> Texto -> Foto -> Indicadores */
-  .sobre-content .sobre-text {
+  /* 1. Texto primeiro */
+  .sobre-text {
     order: 1 !important;
   }
 
-  .sobre-content .sobre-images {
+  /* 2. Foto depois do texto */
+  .sobre-images {
     order: 2 !important;
-    margin-bottom: 30px !important;
+    margin: 20px 0 30px 0 !important;
   }
 
-  /* Remove as fotos individuais, mantém só a dos 3 */
+  /* Remove fotos individuais, mantém só a dos 3 */
   .image-secondary {
-    display: none !important; /* Remove as 3 fotos pequenas */
+    display: none !important;
   }
 
   .img-main {
@@ -1814,14 +1811,15 @@ section > .container {
     max-width: 400px !important;
     margin: 0 auto !important;
     border-radius: 16px !important;
+    display: block !important;
   }
 
-  /* Stats após a foto */
+  /* 3. Indicadores por último (depois da foto) */
   .sobre-stats {
+    order: 3 !important;
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 16px !important;
-    margin-top: 0 !important; /* Remove margin-top pois está após a foto */
-    order: 3 !important;
+    margin: 0 !important; /* Remove margem superior */
   }
 
   .stat-item {
@@ -2033,11 +2031,6 @@ section > .container {
   }
 
   /* Ajustes para celulares muito pequenos */
-  .header-actions .btn-primary {
-    padding: 8px 12px !important;
-    font-size: 13px !important;
-  }
-
   .menu-toggle {
     padding: 6px !important;
   }

@@ -1668,7 +1668,7 @@ section > .container {
 
 /* ============================================
    RESPONSIVO MOBILE (max-width: 768px)
-   Mantém todo design desktop intacto
+   Correções específicas solicitadas
    ============================================ */
 
 @media only screen and (max-width: 768px) {
@@ -1678,7 +1678,7 @@ section > .container {
     max-width: 100% !important;
   }
 
-  /* HEADER */
+  /* HEADER - Correção do menu hambúrguer */
   .header-container {
     padding: 12px 16px !important;
     gap: 16px !important;
@@ -1696,6 +1696,19 @@ section > .container {
   /* Mostra botão menu mobile */
   .menu-toggle {
     display: flex !important;
+    order: 3 !important; /* Coloca o hambúrguer à direita */
+  }
+
+  /* Header actions - Mantém apenas WhatsApp no mobile */
+  .header-actions {
+    order: 2 !important;
+    margin-left: auto !important;
+  }
+
+  .header-actions .btn-primary {
+    display: inline-flex !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
   }
 
   /* Navegação Mobile - ajuste */
@@ -1705,12 +1718,7 @@ section > .container {
     padding: 20px !important;
   }
 
-  /* Ajuste header actions no mobile */
-  .header-actions .btn-primary {
-    display: none !important;
-  }
-
-  /* HERO SECTION */
+  /* HERO SECTION - Centralização do subtítulo */
   .hero {
     min-height: 85vh !important;
     padding: 60px 0 !important;
@@ -1723,26 +1731,44 @@ section > .container {
 
   .hero-title {
     font-size: 36px !important;
+    text-align: center !important;
   }
 
   .hero-subtitle {
     font-size: 16px !important;
     letter-spacing: 1px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    margin: 10px auto 16px !important;
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* Centraliza SOLUÇÕES EM TI QUE IMPULSIONAM SEU NEGÓCIO */
+  .hero-subtitle strong {
+    display: block !important;
+    text-align: center !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 700 !important;
   }
 
   .hero-text {
     font-size: 16px !important;
     margin-bottom: 30px !important;
+    text-align: center !important;
   }
 
   .hero-buttons {
     flex-direction: column !important;
     gap: 12px !important;
+    align-items: center !important;
   }
 
   .hero-buttons .btn-cta,
   .hero-buttons .btn-cta-secondary {
     width: 100% !important;
+    max-width: 280px !important;
   }
 
   /* SEÇÕES GERAIS */
@@ -1763,16 +1789,40 @@ section > .container {
     padding: 0 10px !important;
   }
 
-  /* SOBRE NÓS */
+  /* SOBRE NÓS - Reordenação */
   .sobre-content {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
 
+  /* Ordem: Título -> Texto -> Foto -> Indicadores */
+  .sobre-content .sobre-text {
+    order: 1 !important;
+  }
+
+  .sobre-content .sobre-images {
+    order: 2 !important;
+    margin-bottom: 30px !important;
+  }
+
+  /* Remove as fotos individuais, mantém só a dos 3 */
+  .image-secondary {
+    display: none !important; /* Remove as 3 fotos pequenas */
+  }
+
+  .img-main {
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    border-radius: 16px !important;
+  }
+
+  /* Stats após a foto */
   .sobre-stats {
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 16px !important;
-    margin-top: 24px !important;
+    margin-top: 0 !important; /* Remove margin-top pois está após a foto */
+    order: 3 !important;
   }
 
   .stat-item {
@@ -1786,11 +1836,6 @@ section > .container {
 
   .stat-item h3 {
     font-size: 24px !important;
-  }
-
-  .image-secondary {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 12px !important;
   }
 
   /* MISSÃO, VISÃO, VALORES */
@@ -1851,13 +1896,43 @@ section > .container {
     margin-bottom: 20px !important;
   }
 
-  /* CONTATO */
+  /* CONTATO - Ordem: Formulário → Informações → Celular */
   .contato-wrapper {
     grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "form"
+      "info"
+      "phone" !important;
     gap: 30px !important;
   }
 
-  /* Ajuste do formulário */
+  /* Ajuste do formulário - vem primeiro */
+  .contato-left-col {
+    grid-area: form !important;
+    order: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    height: auto !important;
+  }
+
+  /* Informações vêm em segundo */
+  .info-boxes {
+    grid-area: info !important;
+    order: 2 !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    margin-top: 0 !important;
+  }
+
+  /* Celular vem por último */
+  .phone-col {
+    grid-area: phone !important;
+    order: 3 !important;
+    margin-top: 20px !important;
+  }
+
+  /* Ajustes do formulário */
   .form-row {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
@@ -1867,21 +1942,23 @@ section > .container {
     padding: 24px 20px !important;
   }
 
-  /* Info boxes abaixo do formulário - 2 colunas */
-  .info-boxes {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-  }
-
-  /* Celular - reduz tamanho */
-  .phone-col {
-    order: -1 !important; /* Coloca o celular acima no mobile */
-    margin-bottom: 30px !important;
-  }
-
+  /* Ajuste do smartphone mockup */
   .smartphone-mockup {
     max-width: 280px !important;
     margin: 0 auto !important;
+  }
+
+  .phone-content {
+    padding-top: 35px !important;
+  }
+
+  .phone-logo {
+    width: 120px !important;
+  }
+
+  .phone-text {
+    font-size: 18px !important;
+    margin-bottom: 15px !important;
   }
 
   /* FOOTER */
@@ -1955,6 +2032,16 @@ section > .container {
   .smartphone-mockup {
     max-width: 250px !important;
   }
+
+  /* Ajustes para celulares muito pequenos */
+  .header-actions .btn-primary {
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+  }
+
+  .menu-toggle {
+    padding: 6px !important;
+  }
 }
 
 /* ============================================
@@ -1971,6 +2058,11 @@ section > .container {
     word-wrap: break-word !important;
   }
 
+  /* Centralização do texto do hero */
+  .hero-text {
+    text-align: center !important;
+  }
+
   /* Ajuste específico para a seção "Por que CRV" */
   .porque-item-inline {
     padding: 20px 12px !important;
@@ -1978,10 +2070,5 @@ section > .container {
 
   .porque-item-inline i {
     font-size: 32px !important;
-  }
-
-  /* Ajuste para o layout de contato no mobile */
-  .contato-left-col {
-    height: auto !important;
   }
 }

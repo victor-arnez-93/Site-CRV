@@ -518,14 +518,15 @@ p, .lead, .hero-text, .section-subtitle,
     box-shadow: var(--neon-azul);
 }
 
-.hero-subtitle {
-    font-family: var(--font-accent);
-    font-size: clamp(18px, 3vw, 24px);
-    color: var(--cor-secundaria);
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
+  .hero-subtitle {
+    font-size: 16px !important;
+    letter-spacing: 1px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    font-weight: 800 !important;
+    margin: 10px auto 16px !important;
+    width: 100% !important;
+  }
 
 .hero-text {
     font-size: clamp(16px, 2vw, 20px);
@@ -1756,14 +1757,6 @@ section > .container {
     font-weight: 800 !important;
     margin: 10px auto 16px !important;
     width: 100% !important;
-  }
-
-  /* Centraliza SOLUÇÕES EM TI QUE IMPULSIONAM SEU NEGÓCIO */
-  .hero-subtitle strong {
-    display: block !important;
-    text-align: center !important;
-    font-family: var(--font-heading) !important;
-    font-weight: 700 !important;
   }
 
   .hero-text {

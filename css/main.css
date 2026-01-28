@@ -531,7 +531,7 @@ p, .lead, .hero-text, .section-subtitle,
 
   /* preserva identidade visual */
   font-family: 'Orbitron', sans-serif !important;
-  color: inherit !important;
+  color: #06BDF4 !important;
 }
 
 .hero-text {
@@ -1768,9 +1768,8 @@ section > .container {
 
   /* preserva identidade visual */
   font-family: 'Orbitron', sans-serif !important;
-  color: inherit !important;
+  color: #06BDF4 !important;
 }
-
 
   .hero-text {
     font-size: 16px !important;

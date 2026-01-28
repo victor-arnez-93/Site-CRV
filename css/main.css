@@ -1755,7 +1755,6 @@ section > .container {
     text-transform: uppercase !important;
     font-weight: 600 !important;
     margin: 10px auto 16px !important;
-    display: block !important;
     width: 100% !important;
   }
 

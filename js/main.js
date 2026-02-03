@@ -500,6 +500,38 @@ if (contatoForm) {
     });
 }
 
+// ==============================
+// MÁSCARA DE TELEFONE (DDD + 9xxxx-xxxx)
+// ==============================
+const telefoneInput = document.getElementById("telefone");
+
+if (telefoneInput) {
+  telefoneInput.addEventListener("input", function (e) {
+    let v = e.target.value.replace(/\D/g, ""); // só números
+
+    if (v.length > 11) v = v.slice(0, 11);
+
+    if (v.length > 10) {
+      v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+    } else if (v.length > 6) {
+      v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+    } else if (v.length > 2) {
+      v = v.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
+    } else if (v.length > 0) {
+      v = v.replace(/^(\d{0,2}).*/, "($1");
+    }
+
+    e.target.value = v;
+  });
+
+  // Impede letras
+  telefoneInput.addEventListener("keypress", function (e) {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  });
+}
+
 // ============================================
 // CONSOLE MESSAGE
 // ============================================

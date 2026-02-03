@@ -174,51 +174,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ============================================
-// FORMULÁRIO DE CONTATO
-// ============================================
-
-const contatoForm = document.getElementById('contatoForm');
-
-contatoForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    // Coletar dados
-    const formData = {
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        telefone: document.getElementById('telefone').value,
-        assunto: document.getElementById('assunto').value,
-        mensagem: document.getElementById('mensagem').value
-    };
-
-    // Aqui você pode integrar com seu backend ou serviço de e-mail
-    console.log('Dados do formulário:', formData);
-
-    // Simulação de envio
-    const btnSubmit = contatoForm.querySelector('.btn-submit');
-    const originalText = btnSubmit.innerHTML;
-
-    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-    btnSubmit.disabled = true;
-
-    setTimeout(() => {
-        btnSubmit.innerHTML = '<i class="fas fa-check"></i> Mensagem Enviada!';
-        btnSubmit.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-        btnSubmit.style.borderColor = '#10b981';
-
-        // Resetar formulário
-        contatoForm.reset();
-
-        setTimeout(() => {
-            btnSubmit.innerHTML = originalText;
-            btnSubmit.disabled = false;
-            btnSubmit.style.background = '';
-            btnSubmit.style.borderColor = '';
-        }, 3000);
-    }, 2000);
-});
-
-// ============================================
 // ANIMAÇÕES DE SCROLL
 // ============================================
 

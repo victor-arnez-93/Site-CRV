@@ -466,6 +466,41 @@ const debouncedParallax = debounce(() => {
 }, 10);
 
 // ============================================
+// FORMULÁRIO CONTATO (Formspree sem redirecionar)
+// ============================================
+
+const contatoForm = document.getElementById("contatoForm");
+
+if (contatoForm) {
+    contatoForm.addEventListener("submit", async function (e) {
+        e.preventDefault(); // impede redirecionamento
+
+        const form = e.target;
+        const data = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                alert("Mensagem enviada com sucesso! Em breve entraremos em contato.");
+                form.reset();
+                document.getElementById("contatoForm").scrollIntoView({ behavior: "smooth" });
+            } else {
+                alert("Erro ao enviar a mensagem. Tente novamente em instantes.");
+            }
+        } catch (error) {
+            alert("Erro de conexão. Verifique sua internet e tente novamente.");
+        }
+    });
+}
+
+// ============================================
 // CONSOLE MESSAGE
 // ============================================
 

@@ -519,134 +519,114 @@ if (telefoneInput) {
 // CARROSSEL PROJETOS - VERSÃO ESTÁVEL
 // ============================================
 
-(function() {
-  const carrossel = document.querySelector('.sp-crv');
-  if (!carrossel) return;
+(function () {
+  const track    = document.getElementById('projTrack');
+  const dotsWrap = document.getElementById('projDots');
+  const btnPrev  = document.querySelector('.proj-arrow--prev');
+  const btnNext  = document.querySelector('.proj-arrow--next');
+  const origCards = Array.from(track.querySelectorAll('.proj-card'));
+  const total     = origCards.length;
+  let current     = total; // começa no primeiro card real (após os clones)
+  let isAnimating = false;
 
-  const track = carrossel.querySelector('.sp-crv__track');
-  const cards = Array.from(carrossel.querySelectorAll('.sp-crv__card'));
-  const prevBtn = carrossel.querySelector('.sp-crv__btn.prev');
-  const nextBtn = carrossel.querySelector('.sp-crv__btn.next');
-  const dotsContainer = carrossel.querySelector('.sp-crv__dots');
-  const autoplayTime = parseInt(carrossel.dataset.autoplay || '4000', 10);
-
-  let currentIndex = 0;
-  let autoTimer = null;
-  let cardWidth = 0;
-  let gap = 24;
-
-  function updateDimensions() {
-    const vw = window.innerWidth;
-    gap = vw <= 768 ? 16 : 24;
-
-    // Largura aproximada do card (incluindo gap)
-    const viewport = carrossel.querySelector('.sp-crv__viewport');
-    if (vw <= 768) {
-      cardWidth = viewport.offsetWidth * 0.85 + gap; // 1 card centrado
-    } else if (vw <= 1024) {
-      cardWidth = (viewport.offsetWidth - gap * 1) / 2 + gap; // 2 cards
-    } else {
-      cardWidth = (viewport.offsetWidth - gap * 2) / 3 + gap; // 3 cards
-    }
-  }
-
-  function goToSlide(index) {
-    if (index < 0) index = cards.length - 1;
-    if (index >= cards.length) index = 0;
-
-    currentIndex = index;
-
-    // Move o track para centralizar o card
-    const offset = -currentIndex * cardWidth;
-    track.style.transform = `translateX(${offset}px)`;
-
-    // Ativa o card central
-    cards.forEach((card, i) => {
-      card.classList.toggle('is-active', i === currentIndex);
-    });
-
-    updateDots();
-  }
-
-  function nextSlide() {
-    goToSlide(currentIndex + 1);
-    resetAutoplay();
-  }
-
-  function prevSlide() {
-    goToSlide(currentIndex - 1);
-    resetAutoplay();
-  }
-
-  function buildDots() {
-    if (!dotsContainer) return;
-    dotsContainer.innerHTML = '';
-    cards.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.classList.add('sp-crv__dot');
-      dot.addEventListener('click', () => {
-        goToSlide(i);
-        resetAutoplay();
-      });
-      dotsContainer.appendChild(dot);
-    });
-    updateDots();
-  }
-
-  function updateDots() {
-    const dots = dotsContainer.querySelectorAll('.sp-crv__dot');
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('is-active', i === currentIndex);
-    });
-  }
-
-  function startAutoplay() {
-    if (autoplayTime > 0) {
-      stopAutoplay();
-      autoTimer = setInterval(nextSlide, autoplayTime);
-    }
-  }
-
-  function stopAutoplay() {
-    if (autoTimer) clearInterval(autoTimer);
-  }
-
-  function resetAutoplay() {
-    stopAutoplay();
-    startAutoplay();
-  }
-
-  // Eventos
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-
-  window.addEventListener('resize', () => {
-    updateDimensions();
-    goToSlide(currentIndex);
+  /* Clona cards para loop infinito */
+  const clonesBefore = origCards.map(c => {
+    const cl = c.cloneNode(true);
+    cl.setAttribute('aria-hidden', 'true');
+    return cl;
+  });
+  const clonesAfter = origCards.map(c => {
+    const cl = c.cloneNode(true);
+    cl.setAttribute('aria-hidden', 'true');
+    return cl;
   });
 
-  carrossel.addEventListener('mouseenter', stopAutoplay);
-  carrossel.addEventListener('mouseleave', startAutoplay);
+  clonesBefore.reverse().forEach(cl => track.prepend(cl));
+  clonesAfter.forEach(cl => track.appendChild(cl));
 
-  // Touch swipe simples
-  let touchStartX = 0;
+  const allCards = Array.from(track.querySelectorAll('.proj-card'));
+
+  /* Cria dots (apenas para os originais) */
+  origCards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'proj-dot';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `Projeto ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i + total));
+    dotsWrap.appendChild(dot);
+  });
+
+  function getDotIndex() {
+    return ((current - total) % total + total) % total;
+  }
+
+  function goTo(index, animate = true) {
+    if (isAnimating) return;
+    current = index;
+    render(animate);
+  }
+
+  function render(animate = true) {
+    const cardWidth  = allCards[0].offsetWidth;
+    const gap        = parseFloat(getComputedStyle(track).gap) || 24;
+    const outerWidth = track.parentElement.offsetWidth;
+    const offset     = current * (cardWidth + gap) - (outerWidth / 2) + (cardWidth / 2);
+
+    if (!animate) {
+      track.style.transition = 'none';
+    } else {
+      track.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+      isAnimating = true;
+    }
+
+    track.style.transform = `translateX(${-offset}px)`;
+
+    allCards.forEach((card, i) => {
+      card.classList.toggle('is-active', i === current);
+    });
+
+    const dotIndex = getDotIndex();
+    Array.from(dotsWrap.children).forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === dotIndex);
+    });
+
+    btnPrev.disabled = false;
+    btnNext.disabled = false;
+  }
+
+  /* Após transição, salta silenciosamente para o clone real */
+  track.addEventListener('transitionend', () => {
+    isAnimating = false;
+    if (current < total) {
+      goTo(current + total, false);
+    } else if (current >= total * 2) {
+      goTo(current - total, false);
+    }
+  });
+
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+
+  allCards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      if (i !== current) goTo(i);
+    });
+  });
+
+  /* Swipe touch */
+  let startX = 0;
   track.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
+    startX = e.touches[0].clientX;
   }, { passive: true });
 
   track.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) nextSlide();
-      else prevSlide();
-    }
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
   });
 
-  // Init
-  updateDimensions();
-  buildDots();
-  goToSlide(0);
-  startAutoplay();
+  window.addEventListener('resize', () => render(false));
+
+  render(false);
 })();
 
 // ============================================

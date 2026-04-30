@@ -516,6 +516,99 @@ if (telefoneInput) {
 }
 
 // ============================================
+// CARROSSEL DE PROJETOS
+// ============================================
+
+(function () {
+    const track = document.querySelector('.carrossel-track');
+    const outer = document.querySelector('.carrossel-track-outer');
+    const btnPrev = document.querySelector('.carrossel-prev');
+    const btnNext = document.querySelector('.carrossel-next');
+    const dotsContainer = document.getElementById('carrosselDots');
+
+    if (!track || !outer) return;
+
+    const cards = Array.from(track.querySelectorAll('.projeto-card'));
+    const VISIBLE = () => window.innerWidth > 1024 ? 3 : window.innerWidth > 768 ? 2 : 1;
+    const GAP = 24;
+
+    let current = 0;
+    let autoTimer = null;
+    let isPaused = false;
+
+    // Criar dots
+    function buildDots() {
+        dotsContainer.innerHTML = '';
+        const total = cards.length - VISIBLE() + 1;
+        for (let i = 0; i < total; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carrossel-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+            dot.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    function updateDots() {
+        const dots = dotsContainer.querySelectorAll('.carrossel-dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function getCardWidth() {
+        return cards[0].getBoundingClientRect().width;
+    }
+
+    function goTo(index) {
+        const maxIndex = cards.length - VISIBLE();
+        current = Math.max(0, Math.min(index, maxIndex));
+        const offset = current * (getCardWidth() + GAP);
+        track.style.transform = `translateX(-${offset}px)`;
+        updateDots();
+    }
+
+    function next() { goTo(current + 1 >= cards.length - VISIBLE() + 1 ? 0 : current + 1); }
+    function prev() { goTo(current - 1 < 0 ? cards.length - VISIBLE() : current - 1); }
+
+    // Auto-play
+    function startAuto() {
+        stopAuto();
+        autoTimer = setInterval(() => { if (!isPaused) next(); }, 3500);
+    }
+
+    function stopAuto() {
+        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+    }
+
+    // Pause on hover
+    outer.addEventListener('mouseenter', () => { isPaused = true; });
+    outer.addEventListener('mouseleave', () => { isPaused = false; });
+
+    // Botões
+    btnPrev.addEventListener('click', () => { prev(); stopAuto(); startAuto(); });
+    btnNext.addEventListener('click', () => { next(); stopAuto(); startAuto(); });
+
+    // Touch/Swipe
+    let touchStartX = 0;
+    outer.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    outer.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) { diff > 0 ? next() : prev(); }
+    });
+
+    // Rebuild on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { buildDots(); goTo(0); }, 200);
+    });
+
+    // Init
+    buildDots();
+    goTo(0);
+    startAuto();
+})();
+
+// ============================================
 // CONSOLE MESSAGE
 // ============================================
 

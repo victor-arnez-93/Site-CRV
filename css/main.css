@@ -1773,50 +1773,46 @@ section > .container {
   }
 
 /* ============================================
-   PROJETOS — SPOTLIGHT CAROUSEL
+   PROJETOS — SPOTLIGHT (CORRIGIDO DESKTOP + MOBILE + TÍTULOS)
    ============================================ */
 
 .sp-crv {
   position: relative;
-  padding: 0 50px; /* espaço para as setas ficarem fora do viewport */
+  padding: 0 60px;
 }
 
 .sp-crv__viewport {
   overflow: hidden;
-  padding-block: 28px; /* espaço para sombra/scale não ser cortada */
+  padding-block: 60px;
 }
 
 .sp-crv__track {
   display: flex;
-  gap: 22px;
-  transition: transform .52s cubic-bezier(.25, .46, .45, .94);
+  gap: 28px;
+  align-items: center;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
 
-/* Card — largura definida 100% via JS, CSS é só fallback visual */
 .sp-crv__card {
-  flex-shrink: 0;
-  flex-grow: 0;
-  width: 360px; /* fallback — JS sobrescreve com valor correto */
-  border-radius: 18px;
+  flex: 0 0 auto;
+  border-radius: 20px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(14, 165, 233, .15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
-  transform: scale(.86);
-  opacity: .5;
-  transition: transform .45s ease, opacity .45s ease,
-              box-shadow .45s ease, border-color .45s ease;
+  background: rgba(10, 25, 47, 0.85);
+  backdrop-filter: blur(2px);
+  opacity: 0.5;
+  transform: scale(0.85);
+  transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.3s;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .sp-crv__card.is-active {
-  transform: scale(1);
   opacity: 1;
-  border-color: rgba(14, 165, 233, .55);
-  box-shadow: 0 0 32px rgba(14, 165, 233, .2), 0 20px 48px rgba(0, 0, 0, .4);
-  z-index: 2;
+  transform: scale(1.05);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(14, 165, 233, 0.5);
+  z-index: 3;
 }
 
 .sp-crv__img {
@@ -1831,40 +1827,37 @@ section > .container {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform .4s ease;
+  transition: transform 0.5s ease;
 }
 
 .sp-crv__card.is-active .sp-crv__img img {
-  transform: scale(1.03);
+  transform: scale(1.08);
 }
 
+/* TÍTULOS E TEXTOS – VISÍVEIS E CENTRALIZADOS */
 .sp-crv__info {
-  padding: 20px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: block;
+  padding: 1rem 1rem 1.3rem;
+  text-align: center;
+  background: linear-gradient(145deg, rgba(15, 30, 50, 0.95), rgba(8, 20, 35, 0.95));
+  border-top: 1px solid rgba(14, 165, 233, 0.3);
 }
 
 .sp-crv__info h3 {
-  font-size: clamp(14px, 1.5vw, 17px);
-  color: #e2e8f0;
-  margin: 8px 0 4px;
-  line-height: 1.35;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #fff;
+  letter-spacing: -0.3px;
 }
 
 .sp-crv__info p {
-  font-size: clamp(12px, 1.1vw, 14px);
-  color: #94a3b8;
-  line-height: 1.6;
-  margin: 0 0 10px;
-  text-align: left !important;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
 }
 
-/* Badges — reutiliza os já existentes no CSS (.lancado, .desenvolvimento, .destaque) */
-
-/* Tags — reutiliza .projeto-tags e .tag já existentes */
-
-/* Setas */
+/* BOTÕES */
 .sp-crv__btn {
   position: absolute;
   top: 50%;
@@ -1873,48 +1866,63 @@ section > .container {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(14, 165, 233, .12);
-  border: 1.5px solid rgba(14, 165, 233, .4);
+  background: rgba(14, 165, 233, 0.12);
+  border: 1.5px solid rgba(14, 165, 233, 0.4);
   color: #0ea5e9;
   font-size: 16px;
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: background .25s, box-shadow .25s, transform .2s;
+  transition: background 0.25s, box-shadow 0.25s, transform 0.2s;
 }
 
 .sp-crv__btn:hover {
-  background: var(--gradiente-azul, linear-gradient(135deg, #0ea5e9, #00d4ff));
+  background: linear-gradient(135deg, #0ea5e9, #00d4ff);
   color: #fff;
-  box-shadow: 0 0 18px rgba(14, 165, 233, .5);
+  box-shadow: 0 0 18px rgba(14, 165, 233, 0.5);
   transform: translateY(-50%) scale(1.1);
 }
 
-.sp-crv__btn.prev { left: 0; }
-.sp-crv__btn.next { right: 0; }
+.sp-crv__btn.prev {
+  left: 0;
+}
 
-/* Dots */
+.sp-crv__btn.next {
+  right: 0;
+}
+
+/* DOTS */
 .sp-crv__dots {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 14px;
 }
 
 .sp-crv__dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 1.5px solid rgba(14, 165, 233, .4);
-  background: rgba(14, 165, 233, .2);
+  border: 1.5px solid rgba(14, 165, 233, 0.4);
+  background: rgba(14, 165, 233, 0.2);
   cursor: pointer;
-  transition: background .25s, transform .25s;
+  transition: background 0.25s, transform 0.25s;
 }
 
 .sp-crv__dot.is-active {
   background: #0ea5e9;
   transform: scale(1.4);
-  box-shadow: 0 0 8px rgba(14, 165, 233, .6);
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.6);
+}
+
+/* DESKTOP */
+@media (min-width: 1200px) {
+  .sp-crv {
+    padding: 0 80px;
+  }
+  .sp-crv__card.is-active {
+    transform: scale(1.08);
+  }
 }
 
   /* CONTATO - Ordem: Formulário → Informações → Celular */
@@ -2021,17 +2029,62 @@ section > .container {
    RESPONSIVO — TABLET (max-width: 1024px)
    ============================================ */
 @media only screen and (max-width: 1024px) {
+
+    .sp-crv {
+        padding: 0 40px;
+    }
+
+    .sp-crv__track {
+        gap: 22px;
+    }
+
     .sp-crv__card {
-        flex: 0 0 calc((100% - 22px) / 2);
+        width: 420px; /* reduz mantendo destaque */
+        transform: scale(.85);
+        opacity: .5;
+    }
+
+    .sp-crv__card.is-active {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    .sp-crv__img {
+        aspect-ratio: 16 / 9;
     }
 }
+
 
 /* ============================================
    RESPONSIVO — MOBILE (max-width: 768px)
    ============================================ */
 @media only screen and (max-width: 768px) {
+
+    .sp-crv {
+        padding: 0 20px;
+    }
+
+    .sp-crv__viewport {
+        padding-block: 24px;
+    }
+
+    .sp-crv__track {
+        gap: 16px;
+    }
+
     .sp-crv__card {
-        flex: 0 0 80%;
+        width: 85%; /* ocupa mais tela */
+        transform: scale(.9);
+        opacity: .7;
+    }
+
+    .sp-crv__card.is-active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .sp-crv__img {
+        aspect-ratio: 16 / 9;
     }
 
     .sp-crv__btn {
@@ -2043,6 +2096,7 @@ section > .container {
     .sp-crv__btn.prev { left: -8px; }
     .sp-crv__btn.next { right: -8px; }
 
+    /* mantém seu comportamento de texto global */
     p, .lead, .hero-text, .section-subtitle,
     .sobre-text p, .mvv-card-compact p,
     .servico-card p, .sp-crv__info p,
@@ -2065,10 +2119,12 @@ section > .container {
     }
 }
 
+
 /* ============================================
    RESPONSIVO — MOBILE PEQUENO (max-width: 480px)
    ============================================ */
 @media only screen and (max-width: 480px) {
+
     .hero-title {
         font-size: 30px !important;
     }
@@ -2106,8 +2162,23 @@ section > .container {
         padding: 6px !important;
     }
 
+    .sp-crv {
+        padding: 0 12px;
+    }
+
     .sp-crv__card {
-        flex: 0 0 90%;
+        width: 92%;
+        transform: scale(.95);
+        opacity: .8;
+    }
+
+    .sp-crv__card.is-active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .sp-crv__img {
+        aspect-ratio: 16 / 9;
     }
 
     .sp-crv__btn {

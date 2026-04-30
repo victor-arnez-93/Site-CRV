@@ -516,93 +516,167 @@ if (telefoneInput) {
 }
 
 // ============================================
-// SPOTLIGHT CAROUSEL — PROJETOS CRV
+// SPOTLIGHT CAROUSEL — PROJETOS (DESKTOP + MOBILE + TÍTULOS)
 // ============================================
 
 (function () {
-  const car      = document.querySelector('.sp-crv');
+  const car = document.querySelector('.sp-crv');
   if (!car) return;
 
-  const track    = car.querySelector('.sp-crv__track');
+  const track = car.querySelector('.sp-crv__track');
   const viewport = car.querySelector('.sp-crv__viewport');
-  const cards    = Array.from(track.querySelectorAll('.sp-crv__card'));
-  const btnPrev  = car.querySelector('.sp-crv__btn.prev');
-  const btnNext  = car.querySelector('.sp-crv__btn.next');
+  const cards = Array.from(track.querySelectorAll('.sp-crv__card'));
+  const btnPrev = car.querySelector('.sp-crv__btn.prev');
+  const btnNext = car.querySelector('.sp-crv__btn.next');
   const dotsWrap = car.querySelector('.sp-crv__dots');
   const autoplayMs = parseInt(car.dataset.autoplay || '0', 10);
-  const GAP = 22; // deve bater com o gap do CSS
 
   let index = 0;
   let timer = null;
+  let cardsPerView = 1;
 
-  /* --- Dots --- */
+  function getGap() {
+    const style = window.getComputedStyle(track);
+    return parseInt(style.gap || style.columnGap || 0, 10);
+  }
+
+  // DOTS
   dotsWrap.innerHTML = '';
   cards.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.className = 'sp-crv__dot' + (i === 0 ? ' is-active' : '');
-    dot.setAttribute('aria-label', `Projeto ${i + 1}`);
-    dot.addEventListener('click', () => { goTo(i); resetTimer(); });
+    dot.addEventListener('click', () => {
+      goTo(i);
+      resetTimer();
+    });
     dotsWrap.appendChild(dot);
   });
 
-  /* --- Calcula e aplica largura dos cards via JS (evita % em flex sem width fixo) --- */
+  function updateDots() {
+    const dots = dotsWrap.querySelectorAll('.sp-crv__dot');
+    dots.forEach((d, j) => d.classList.toggle('is-active', j === index));
+  }
+
+  // LARGURA DOS CARDS (RESPONSIVO)
   function applyWidths() {
-    const vw = viewport.offsetWidth;
+    const vw = viewport.clientWidth;
+    const gap = getGap();
     let cw;
-    if (vw >= 900)      cw = Math.floor((vw - GAP * 2) / 3);
-    else if (vw >= 540) cw = Math.floor(vw * 0.75);
-    else                cw = Math.floor(vw * 0.86);
+
+    if (vw >= 1200) {
+      cardsPerView = 3;
+      cw = (vw - gap * (cardsPerView - 1)) / cardsPerView;
+      cw = cw * 0.92; // pequeno respiro
+    } else if (vw >= 768) {
+      cardsPerView = 2;
+      cw = (vw - gap) / 2;
+    } else {
+      cardsPerView = 1;
+      cw = vw * 0.85;
+    }
 
     cards.forEach(c => {
-      c.style.width      = cw + 'px';
-      c.style.flexShrink = '0';
-      c.style.flexGrow   = '0';
+      c.style.width = Math.floor(cw) + 'px';
+      c.style.flex = '0 0 auto';
     });
+
+    car.dataset.cardsPerView = cardsPerView;
   }
 
-  /* --- Usa offsetWidth (não getBoundingClientRect — scale() afeta getBCR) --- */
-  function cardW() { return cards[0].offsetWidth; }
+  function cardWidth() {
+    return cards[0]?.offsetWidth || 0;
+  }
 
+  // MOVIMENTO CENTRALIZADO
   function goTo(i) {
     index = (i + cards.length) % cards.length;
+    const cw = cardWidth();
+    const gap = getGap();
+    const vw = viewport.clientWidth;
+    const cpv = parseInt(car.dataset.cardsPerView || '1', 10);
 
-    const cw = cardW();
-    const vw = viewport.offsetWidth;
-    // Centraliza o card ativo no viewport
-    const offset = -(index * (cw + GAP)) + (vw / 2 - cw / 2);
+    let offset;
+    if (cpv === 1) {
+      offset = -(index * (cw + gap)) + (vw / 2 - cw / 2);
+    } else if (cpv === 2) {
+      offset = -(index * (cw + gap)) + (vw / 2 - cw / 2);
+    } else {
+      // desktop 3 cards: centraliza o ativo
+      const centerOffset = (vw / 2) - (cw / 2);
+      offset = -(index * (cw + gap)) + centerOffset;
+    }
+
     track.style.transform = `translateX(${offset}px)`;
 
-    cards.forEach((c, j) => c.classList.toggle('is-active', j === index));
-    dotsWrap.querySelectorAll('.sp-crv__dot')
-            .forEach((d, j) => d.classList.toggle('is-active', j === index));
+    cards.forEach((c, j) => {
+      c.classList.toggle('is-active', j === index);
+    });
+
+    updateDots();
   }
 
-  btnPrev.addEventListener('click', () => { goTo(index - 1); resetTimer(); });
-  btnNext.addEventListener('click', () => { goTo(index + 1); resetTimer(); });
-
-  /* Swipe touch */
-  let tx = 0;
-  car.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-  car.addEventListener('touchend',   e => {
-    const d = tx - e.changedTouches[0].clientX;
-    if (Math.abs(d) > 50) { d > 0 ? goTo(index + 1) : goTo(index - 1); resetTimer(); }
+  // BOTÕES
+  btnPrev.addEventListener('click', () => {
+    goTo(index - 1);
+    resetTimer();
+  });
+  btnNext.addEventListener('click', () => {
+    goTo(index + 1);
+    resetTimer();
   });
 
-  /* Resize */
-  window.addEventListener('resize', () => { applyWidths(); goTo(index); });
+  // SWIPE MOBILE
+  let touchStartX = 0;
+  car.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  car.addEventListener('touchend', e => {
+    const delta = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(delta) > 50) {
+      delta > 0 ? goTo(index + 1) : goTo(index - 1);
+      resetTimer();
+    }
+  });
 
-  /* Autoplay */
-  function startTimer() { if (autoplayMs > 0) timer = setInterval(() => goTo(index + 1), autoplayMs); }
-  function stopTimer()  { clearInterval(timer); timer = null; }
-  function resetTimer() { stopTimer(); startTimer(); }
+  // RESIZE
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      applyWidths();
+      goTo(index);
+    }, 150);
+  });
 
+  // AUTOPLAY
+  function startTimer() {
+    if (autoplayMs > 0) {
+      timer = setInterval(() => goTo(index + 1), autoplayMs);
+    }
+  }
+  function stopTimer() {
+    clearInterval(timer);
+    timer = null;
+  }
+  function resetTimer() {
+    stopTimer();
+    startTimer();
+  }
   car.addEventListener('mouseenter', stopTimer);
   car.addEventListener('mouseleave', startTimer);
 
-  /* Init */
-  applyWidths();
-  goTo(0);
-  startTimer();
+  // INIT
+  function init() {
+    applyWidths();
+    goTo(0);
+    startTimer();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 
 // ============================================

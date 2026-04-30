@@ -1772,157 +1772,43 @@ section > .container {
     font-size: 32px !important;
   }
 
-/* ============================================
-   PROJETOS — SPOTLIGHT (CORRIGIDO DESKTOP + MOBILE + TÍTULOS)
-   ============================================ */
-
 .sp-crv {
   position: relative;
-  padding: 0 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .sp-crv__viewport {
   overflow: hidden;
-  padding-block: 60px;
+  position: relative;
+  padding: 40px 0;
 }
 
 .sp-crv__track {
   display: flex;
-  gap: 28px;
-  align-items: center;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  gap: 24px;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
 
+/* Cards */
 .sp-crv__card {
-  flex: 0 0 auto;
+  flex: 0 0 calc(33.333% - 16px); /* desktop: 3 cards */
+  min-width: 0;
+  background: rgba(10, 25, 47, 0.9);
   border-radius: 20px;
   overflow: hidden;
   text-decoration: none;
-  color: inherit;
-  background: rgba(10, 25, 47, 0.85);
-  backdrop-filter: blur(2px);
-  opacity: 0.5;
-  transform: scale(0.85);
-  transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.3s;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  cursor: pointer;
 }
 
 .sp-crv__card.is-active {
-  opacity: 1;
-  transform: scale(1.05);
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(14, 165, 233, 0.5);
-  z-index: 3;
-}
-
-.sp-crv__img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: #0d1b2a;
-}
-
-.sp-crv__img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
-}
-
-.sp-crv__card.is-active .sp-crv__img img {
-  transform: scale(1.08);
-}
-
-/* TÍTULOS E TEXTOS – VISÍVEIS E CENTRALIZADOS */
-.sp-crv__info {
-  display: block;
-  padding: 1rem 1rem 1.3rem;
-  text-align: center;
-  background: linear-gradient(145deg, rgba(15, 30, 50, 0.95), rgba(8, 20, 35, 0.95));
-  border-top: 1px solid rgba(14, 165, 233, 0.3);
-}
-
-.sp-crv__info h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  color: #fff;
-  letter-spacing: -0.3px;
-}
-
-.sp-crv__info p {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-}
-
-/* BOTÕES */
-.sp-crv__btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(14, 165, 233, 0.12);
-  border: 1.5px solid rgba(14, 165, 233, 0.4);
-  color: #0ea5e9;
-  font-size: 16px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: background 0.25s, box-shadow 0.25s, transform 0.2s;
-}
-
-.sp-crv__btn:hover {
-  background: linear-gradient(135deg, #0ea5e9, #00d4ff);
-  color: #fff;
-  box-shadow: 0 0 18px rgba(14, 165, 233, 0.5);
-  transform: translateY(-50%) scale(1.1);
-}
-
-.sp-crv__btn.prev {
-  left: 0;
-}
-
-.sp-crv__btn.next {
-  right: 0;
-}
-
-/* DOTS */
-.sp-crv__dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.sp-crv__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(14, 165, 233, 0.4);
-  background: rgba(14, 165, 233, 0.2);
-  cursor: pointer;
-  transition: background 0.25s, transform 0.25s;
-}
-
-.sp-crv__dot.is-active {
-  background: #0ea5e9;
-  transform: scale(1.4);
-  box-shadow: 0 0 8px rgba(14, 165, 233, 0.6);
-}
-
-/* DESKTOP */
-@media (min-width: 1200px) {
-  .sp-crv {
-    padding: 0 80px;
-  }
-  .sp-crv__card.is-active {
-    transform: scale(1.08);
-  }
+  transform: scale(1.04);
+  border-color: #0ea5e9;
+  box-shadow: 0 15px 40px rgba(14, 165, 233, 0.25);
 }
 
   /* CONTATO - Ordem: Formulário → Informações → Celular */
@@ -2030,171 +1916,134 @@ section > .container {
    ============================================ */
 @media only screen and (max-width: 1024px) {
 
-    .sp-crv {
-        padding: 0 40px;
-    }
+  .sp-crv {
+    padding: 0 40px;
+  }
 
-    .sp-crv__track {
-        gap: 22px;
-    }
+  .sp-crv__track {
+    gap: 20px;
+  }
 
-    .sp-crv__card {
-        width: 420px; /* reduz mantendo destaque */
-        transform: scale(.85);
-        opacity: .5;
-    }
+  .sp-crv__card {
+    flex: 0 0 calc(50% - 10px);     /* 2 cards visíveis no tablet */
+  }
 
-    .sp-crv__card.is-active {
-        transform: scale(1.05);
-        opacity: 1;
-    }
+  .sp-crv__btn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
 
-    .sp-crv__img {
-        aspect-ratio: 16 / 9;
-    }
+  .sp-crv__btn.prev { left: -8px; }
+  .sp-crv__btn.next { right: -8px; }
 }
-
 
 /* ============================================
    RESPONSIVO — MOBILE (max-width: 768px)
    ============================================ */
 @media only screen and (max-width: 768px) {
 
-    .sp-crv {
-        padding: 0 20px;
-    }
+  .sp-crv {
+    padding: 0 20px;
+  }
 
-    .sp-crv__viewport {
-        padding-block: 24px;
-    }
+  .sp-crv__viewport {
+    padding-block: 30px;
+  }
 
-    .sp-crv__track {
-        gap: 16px;
-    }
+  .sp-crv__track {
+    gap: 16px;
+  }
 
-    .sp-crv__card {
-        width: 85%; /* ocupa mais tela */
-        transform: scale(.9);
-        opacity: .7;
-    }
+  /* 1 card centralizado no mobile */
+  .sp-crv__card {
+    flex: 0 0 88%;                    /* deixa margem boa dos lados */
+    max-width: 88%;
+    margin: 0 auto;
+  }
 
-    .sp-crv__card.is-active {
-        transform: scale(1);
-        opacity: 1;
-    }
+  .sp-crv__btn {
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+  }
 
-    .sp-crv__img {
-        aspect-ratio: 16 / 9;
-    }
+  /* Botões ficam mais colados nas bordas no mobile */
+  .sp-crv__btn.prev {
+    left: -5px;
+  }
+  .sp-crv__btn.next {
+    right: -5px;
+  }
 
-    .sp-crv__btn {
-        width: 36px;
-        height: 36px;
-        font-size: 13px;
-    }
+  .sp-crv__info {
+    padding: 16px 14px;
+  }
 
-    .sp-crv__btn.prev { left: -8px; }
-    .sp-crv__btn.next { right: -8px; }
+  .sp-crv__info h3 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
 
-    /* mantém seu comportamento de texto global */
-    p, .lead, .hero-text, .section-subtitle,
-    .sobre-text p, .mvv-card-compact p,
-    .servico-card p, .sp-crv__info p,
-    .outro-item p, .info-content p {
-        text-align: left !important;
-        hyphens: auto !important;
-        word-wrap: break-word !important;
-    }
-
-    .hero-text {
-        text-align: center !important;
-    }
-
-    .porque-item-inline {
-        padding: 20px 12px !important;
-    }
-
-    .porque-item-inline i {
-        font-size: 32px !important;
-    }
+  .sp-crv__info p {
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
 }
-
 
 /* ============================================
    RESPONSIVO — MOBILE PEQUENO (max-width: 480px)
    ============================================ */
 @media only screen and (max-width: 480px) {
 
-    .hero-title {
-        font-size: 30px !important;
-    }
+  .sp-crv {
+    padding: 0 15px;
+  }
 
-    .hero-subtitle {
-        font-size: 14px !important;
-    }
+  .sp-crv__viewport {
+    padding-block: 24px;
+  }
 
-    .sobre-stats {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-    }
+  .sp-crv__track {
+    gap: 14px;
+  }
 
-    .stat-item {
-        padding: 20px !important;
-    }
+  .sp-crv__card {
+    flex: 0 0 90%;                    /* um pouco mais largo em telas muito pequenas */
+    max-width: 90%;
+  }
 
-    .porque-grid-inline {
-        grid-template-columns: 1fr !important;
-    }
+  .sp-crv__btn {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
 
-    .outros-grid {
-        grid-template-columns: 1fr !important;
-    }
+  .sp-crv__btn.prev {
+    left: -8px;
+  }
+  .sp-crv__btn.next {
+    right: -8px;
+  }
 
-    .info-boxes {
-        grid-template-columns: 1fr !important;
-    }
+  .sp-crv__info {
+    padding: 14px 12px;
+  }
 
-    .smartphone-mockup {
-        max-width: 250px !important;
-    }
+  .sp-crv__info h3 {
+    font-size: 0.98rem;
+  }
 
-    .menu-toggle {
-        padding: 6px !important;
-    }
+  .sp-crv__info p {
+    font-size: 0.76rem;
+  }
 
-    .sp-crv {
-        padding: 0 12px;
-    }
+  .sp-crv__dots {
+    margin-top: 20px;
+  }
 
-    .sp-crv__card {
-        width: 92%;
-        transform: scale(.95);
-        opacity: .8;
-    }
-
-    .sp-crv__card.is-active {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    .sp-crv__img {
-        aspect-ratio: 16 / 9;
-    }
-
-    .sp-crv__btn {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-    }
-
-    .sp-crv__btn.prev { left: -4px; }
-    .sp-crv__btn.next { right: -4px; }
-
-    .sp-crv__info h3 {
-        font-size: 14px;
-    }
-
-    .sp-crv__info p {
-        font-size: 12px;
-    }
+  .sp-crv__dot {
+    width: 7px;
+    height: 7px;
+  }
 }

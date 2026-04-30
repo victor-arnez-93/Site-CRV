@@ -516,167 +516,137 @@ if (telefoneInput) {
 }
 
 // ============================================
-// SPOTLIGHT CAROUSEL — PROJETOS (DESKTOP + MOBILE + TÍTULOS)
+// CARROSSEL PROJETOS - VERSÃO ESTÁVEL
 // ============================================
 
-(function () {
-  const car = document.querySelector('.sp-crv');
-  if (!car) return;
+(function() {
+  const carrossel = document.querySelector('.sp-crv');
+  if (!carrossel) return;
 
-  const track = car.querySelector('.sp-crv__track');
-  const viewport = car.querySelector('.sp-crv__viewport');
-  const cards = Array.from(track.querySelectorAll('.sp-crv__card'));
-  const btnPrev = car.querySelector('.sp-crv__btn.prev');
-  const btnNext = car.querySelector('.sp-crv__btn.next');
-  const dotsWrap = car.querySelector('.sp-crv__dots');
-  const autoplayMs = parseInt(car.dataset.autoplay || '0', 10);
+  const track = carrossel.querySelector('.sp-crv__track');
+  const cards = Array.from(carrossel.querySelectorAll('.sp-crv__card'));
+  const prevBtn = carrossel.querySelector('.sp-crv__btn.prev');
+  const nextBtn = carrossel.querySelector('.sp-crv__btn.next');
+  const dotsContainer = carrossel.querySelector('.sp-crv__dots');
+  const autoplayTime = parseInt(carrossel.dataset.autoplay || '4000', 10);
 
-  let index = 0;
-  let timer = null;
-  let cardsPerView = 1;
+  let currentIndex = 0;
+  let autoTimer = null;
+  let cardWidth = 0;
+  let gap = 24;
 
-  function getGap() {
-    const style = window.getComputedStyle(track);
-    return parseInt(style.gap || style.columnGap || 0, 10);
-  }
+  function updateDimensions() {
+    const vw = window.innerWidth;
+    gap = vw <= 768 ? 16 : 24;
 
-  // DOTS
-  dotsWrap.innerHTML = '';
-  cards.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'sp-crv__dot' + (i === 0 ? ' is-active' : '');
-    dot.addEventListener('click', () => {
-      goTo(i);
-      resetTimer();
-    });
-    dotsWrap.appendChild(dot);
-  });
-
-  function updateDots() {
-    const dots = dotsWrap.querySelectorAll('.sp-crv__dot');
-    dots.forEach((d, j) => d.classList.toggle('is-active', j === index));
-  }
-
-  // LARGURA DOS CARDS (RESPONSIVO)
-  function applyWidths() {
-    const vw = viewport.clientWidth;
-    const gap = getGap();
-    let cw;
-
-    if (vw >= 1200) {
-      cardsPerView = 3;
-      cw = (vw - gap * (cardsPerView - 1)) / cardsPerView;
-      cw = cw * 0.92; // pequeno respiro
-    } else if (vw >= 768) {
-      cardsPerView = 2;
-      cw = (vw - gap) / 2;
+    // Largura aproximada do card (incluindo gap)
+    const viewport = carrossel.querySelector('.sp-crv__viewport');
+    if (vw <= 768) {
+      cardWidth = viewport.offsetWidth * 0.85 + gap; // 1 card centrado
+    } else if (vw <= 1024) {
+      cardWidth = (viewport.offsetWidth - gap * 1) / 2 + gap; // 2 cards
     } else {
-      cardsPerView = 1;
-      cw = vw * 0.85;
+      cardWidth = (viewport.offsetWidth - gap * 2) / 3 + gap; // 3 cards
     }
-
-    cards.forEach(c => {
-      c.style.width = Math.floor(cw) + 'px';
-      c.style.flex = '0 0 auto';
-    });
-
-    car.dataset.cardsPerView = cardsPerView;
   }
 
-  function cardWidth() {
-    return cards[0]?.offsetWidth || 0;
-  }
+  function goToSlide(index) {
+    if (index < 0) index = cards.length - 1;
+    if (index >= cards.length) index = 0;
 
-  // MOVIMENTO CENTRALIZADO
-  function goTo(i) {
-    index = (i + cards.length) % cards.length;
-    const cw = cardWidth();
-    const gap = getGap();
-    const vw = viewport.clientWidth;
-    const cpv = parseInt(car.dataset.cardsPerView || '1', 10);
+    currentIndex = index;
 
-    let offset;
-    if (cpv === 1) {
-      offset = -(index * (cw + gap)) + (vw / 2 - cw / 2);
-    } else if (cpv === 2) {
-      offset = -(index * (cw + gap)) + (vw / 2 - cw / 2);
-    } else {
-      // desktop 3 cards: centraliza o ativo
-      const centerOffset = (vw / 2) - (cw / 2);
-      offset = -(index * (cw + gap)) + centerOffset;
-    }
-
+    // Move o track para centralizar o card
+    const offset = -currentIndex * cardWidth;
     track.style.transform = `translateX(${offset}px)`;
 
-    cards.forEach((c, j) => {
-      c.classList.toggle('is-active', j === index);
+    // Ativa o card central
+    cards.forEach((card, i) => {
+      card.classList.toggle('is-active', i === currentIndex);
     });
 
     updateDots();
   }
 
-  // BOTÕES
-  btnPrev.addEventListener('click', () => {
-    goTo(index - 1);
-    resetTimer();
-  });
-  btnNext.addEventListener('click', () => {
-    goTo(index + 1);
-    resetTimer();
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+    resetAutoplay();
+  }
+
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+    resetAutoplay();
+  }
+
+  function buildDots() {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = '';
+    cards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.classList.add('sp-crv__dot');
+      dot.addEventListener('click', () => {
+        goToSlide(i);
+        resetAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+    });
+    updateDots();
+  }
+
+  function updateDots() {
+    const dots = dotsContainer.querySelectorAll('.sp-crv__dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === currentIndex);
+    });
+  }
+
+  function startAutoplay() {
+    if (autoplayTime > 0) {
+      stopAutoplay();
+      autoTimer = setInterval(nextSlide, autoplayTime);
+    }
+  }
+
+  function stopAutoplay() {
+    if (autoTimer) clearInterval(autoTimer);
+  }
+
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  // Eventos
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+  window.addEventListener('resize', () => {
+    updateDimensions();
+    goToSlide(currentIndex);
   });
 
-  // SWIPE MOBILE
+  carrossel.addEventListener('mouseenter', stopAutoplay);
+  carrossel.addEventListener('mouseleave', startAutoplay);
+
+  // Touch swipe simples
   let touchStartX = 0;
-  car.addEventListener('touchstart', e => {
+  track.addEventListener('touchstart', e => {
     touchStartX = e.touches[0].clientX;
   }, { passive: true });
-  car.addEventListener('touchend', e => {
-    const delta = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(delta) > 50) {
-      delta > 0 ? goTo(index + 1) : goTo(index - 1);
-      resetTimer();
+
+  track.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
     }
   });
 
-  // RESIZE
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      applyWidths();
-      goTo(index);
-    }, 150);
-  });
-
-  // AUTOPLAY
-  function startTimer() {
-    if (autoplayMs > 0) {
-      timer = setInterval(() => goTo(index + 1), autoplayMs);
-    }
-  }
-  function stopTimer() {
-    clearInterval(timer);
-    timer = null;
-  }
-  function resetTimer() {
-    stopTimer();
-    startTimer();
-  }
-  car.addEventListener('mouseenter', stopTimer);
-  car.addEventListener('mouseleave', startTimer);
-
-  // INIT
-  function init() {
-    applyWidths();
-    goTo(0);
-    startTimer();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  // Init
+  updateDimensions();
+  buildDots();
+  goToSlide(0);
+  startAutoplay();
 })();
 
 // ============================================

@@ -516,96 +516,73 @@ if (telefoneInput) {
 }
 
 // ============================================
-// CARROSSEL DE PROJETOS
+// SPOTLIGHT CAROUSEL — PROJETOS CRV
 // ============================================
 
 (function () {
-    const track = document.querySelector('.carrossel-track');
-    const outer = document.querySelector('.carrossel-track-outer');
-    const btnPrev = document.querySelector('.carrossel-prev');
-    const btnNext = document.querySelector('.carrossel-next');
-    const dotsContainer = document.getElementById('carrosselDots');
+  const car      = document.querySelector('.sp-crv');
+  if (!car) return;
 
-    if (!track || !outer) return;
+  const track    = car.querySelector('.sp-crv__track');
+  const viewport = car.querySelector('.sp-crv__viewport');
+  const cards    = Array.from(track.querySelectorAll('.sp-crv__card'));
+  const btnPrev  = car.querySelector('.sp-crv__btn.prev');
+  const btnNext  = car.querySelector('.sp-crv__btn.next');
+  const dotsWrap = car.querySelector('.sp-crv__dots');
+  const autoplayMs = parseInt(car.dataset.autoplay || '0', 10);
 
-    const cards = Array.from(track.querySelectorAll('.projeto-card'));
-    const VISIBLE = () => window.innerWidth > 1024 ? 3 : window.innerWidth > 768 ? 2 : 1;
-    const GAP = 24;
+  let current = 0;
+  let timer   = null;
 
-    let current = 0;
-    let autoTimer = null;
-    let isPaused = false;
+  // Dots
+  cards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'sp-crv__dot' + (i === 0 ? ' is-active' : '');
+    dot.setAttribute('aria-label', `Projeto ${i + 1}`);
+    dot.addEventListener('click', () => { goTo(i); resetTimer(); });
+    dotsWrap.appendChild(dot);
+  });
 
-    // Criar dots
-    function buildDots() {
-        dotsContainer.innerHTML = '';
-        const total = cards.length - VISIBLE() + 1;
-        for (let i = 0; i < total; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'carrossel-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Ir para slide ${i + 1}`);
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
-        }
-    }
+  function cardWidth()  { return cards[0].getBoundingClientRect().width; }
+  function trackGap()   { return parseFloat(getComputedStyle(track).gap) || 22; }
 
-    function updateDots() {
-        const dots = dotsContainer.querySelectorAll('.carrossel-dot');
-        dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    }
+  function goTo(i) {
+    current = (i + cards.length) % cards.length;
 
-    function getCardWidth() {
-        return cards[0].getBoundingClientRect().width;
-    }
+    const cw  = cardWidth();
+    const gap = trackGap();
+    const vw  = viewport.offsetWidth;
+    const offset = -(current * (cw + gap)) + (vw / 2 - cw / 2);
 
-    function goTo(index) {
-        const maxIndex = cards.length - VISIBLE();
-        current = Math.max(0, Math.min(index, maxIndex));
-        const offset = current * (getCardWidth() + GAP);
-        track.style.transform = `translateX(-${offset}px)`;
-        updateDots();
-    }
+    track.style.transform = `translateX(${offset}px)`;
 
-    function next() { goTo(current + 1 >= cards.length - VISIBLE() + 1 ? 0 : current + 1); }
-    function prev() { goTo(current - 1 < 0 ? cards.length - VISIBLE() : current - 1); }
+    cards.forEach((c, j) => c.classList.toggle('is-active', j === current));
+    dotsWrap.querySelectorAll('.sp-crv__dot')
+            .forEach((d, j) => d.classList.toggle('is-active', j === current));
+  }
 
-    // Auto-play
-    function startAuto() {
-        stopAuto();
-        autoTimer = setInterval(() => { if (!isPaused) next(); }, 3500);
-    }
+  btnPrev.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+  btnNext.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
 
-    function stopAuto() {
-        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-    }
+  // Swipe touch
+  let tx = 0;
+  car.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  car.addEventListener('touchend',   e => {
+    const d = tx - e.changedTouches[0].clientX;
+    if (Math.abs(d) > 50) { d > 0 ? goTo(current + 1) : goTo(current - 1); resetTimer(); }
+  });
 
-    // Pause on hover
-    outer.addEventListener('mouseenter', () => { isPaused = true; });
-    outer.addEventListener('mouseleave', () => { isPaused = false; });
+  window.addEventListener('resize', () => goTo(current));
 
-    // Botões
-    btnPrev.addEventListener('click', () => { prev(); stopAuto(); startAuto(); });
-    btnNext.addEventListener('click', () => { next(); stopAuto(); startAuto(); });
+  function startTimer() { if (autoplayMs > 0) timer = setInterval(() => goTo(current + 1), autoplayMs); }
+  function stopTimer()  { clearInterval(timer); timer = null; }
+  function resetTimer() { stopTimer(); startTimer(); }
 
-    // Touch/Swipe
-    let touchStartX = 0;
-    outer.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    outer.addEventListener('touchend', e => {
-        const diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) { diff > 0 ? next() : prev(); }
-    });
+  car.addEventListener('mouseenter', stopTimer);
+  car.addEventListener('mouseleave', startTimer);
 
-    // Rebuild on resize
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => { buildDots(); goTo(0); }, 200);
-    });
-
-    // Init
-    buildDots();
-    goTo(0);
-    startAuto();
+  goTo(0);
+  startTimer();
 })();
 
 // ============================================

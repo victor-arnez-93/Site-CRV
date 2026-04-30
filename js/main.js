@@ -530,11 +530,13 @@ if (telefoneInput) {
   const btnNext  = car.querySelector('.sp-crv__btn.next');
   const dotsWrap = car.querySelector('.sp-crv__dots');
   const autoplayMs = parseInt(car.dataset.autoplay || '0', 10);
+  const GAP = 22; // deve bater com o gap do CSS
 
-  let current = 0;
-  let timer   = null;
+  let index = 0;
+  let timer = null;
 
-  // Dots
+  /* --- Dots --- */
+  dotsWrap.innerHTML = '';
   cards.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.className = 'sp-crv__dot' + (i === 0 ? ' is-active' : '');
@@ -543,44 +545,62 @@ if (telefoneInput) {
     dotsWrap.appendChild(dot);
   });
 
-  function cardWidth()  { return cards[0].getBoundingClientRect().width; }
-  function trackGap()   { return parseFloat(getComputedStyle(track).gap) || 22; }
+  /* --- Calcula e aplica largura dos cards via JS (evita % em flex sem width fixo) --- */
+  function applyWidths() {
+    const vw = viewport.offsetWidth;
+    let cw;
+    if (vw >= 900)      cw = Math.floor((vw - GAP * 2) / 3);
+    else if (vw >= 540) cw = Math.floor(vw * 0.75);
+    else                cw = Math.floor(vw * 0.86);
 
-  function goTo(i) {
-    current = (i + cards.length) % cards.length;
-
-    const cw  = cardWidth();
-    const gap = trackGap();
-    const vw  = viewport.offsetWidth;
-    const offset = -(current * (cw + gap)) + (vw / 2 - cw / 2);
-
-    track.style.transform = `translateX(${offset}px)`;
-
-    cards.forEach((c, j) => c.classList.toggle('is-active', j === current));
-    dotsWrap.querySelectorAll('.sp-crv__dot')
-            .forEach((d, j) => d.classList.toggle('is-active', j === current));
+    cards.forEach(c => {
+      c.style.width      = cw + 'px';
+      c.style.flexShrink = '0';
+      c.style.flexGrow   = '0';
+    });
   }
 
-  btnPrev.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
-  btnNext.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+  /* --- Usa offsetWidth (não getBoundingClientRect — scale() afeta getBCR) --- */
+  function cardW() { return cards[0].offsetWidth; }
 
-  // Swipe touch
+  function goTo(i) {
+    index = (i + cards.length) % cards.length;
+
+    const cw = cardW();
+    const vw = viewport.offsetWidth;
+    // Centraliza o card ativo no viewport
+    const offset = -(index * (cw + GAP)) + (vw / 2 - cw / 2);
+    track.style.transform = `translateX(${offset}px)`;
+
+    cards.forEach((c, j) => c.classList.toggle('is-active', j === index));
+    dotsWrap.querySelectorAll('.sp-crv__dot')
+            .forEach((d, j) => d.classList.toggle('is-active', j === index));
+  }
+
+  btnPrev.addEventListener('click', () => { goTo(index - 1); resetTimer(); });
+  btnNext.addEventListener('click', () => { goTo(index + 1); resetTimer(); });
+
+  /* Swipe touch */
   let tx = 0;
   car.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
   car.addEventListener('touchend',   e => {
     const d = tx - e.changedTouches[0].clientX;
-    if (Math.abs(d) > 50) { d > 0 ? goTo(current + 1) : goTo(current - 1); resetTimer(); }
+    if (Math.abs(d) > 50) { d > 0 ? goTo(index + 1) : goTo(index - 1); resetTimer(); }
   });
 
-  window.addEventListener('resize', () => goTo(current));
+  /* Resize */
+  window.addEventListener('resize', () => { applyWidths(); goTo(index); });
 
-  function startTimer() { if (autoplayMs > 0) timer = setInterval(() => goTo(current + 1), autoplayMs); }
+  /* Autoplay */
+  function startTimer() { if (autoplayMs > 0) timer = setInterval(() => goTo(index + 1), autoplayMs); }
   function stopTimer()  { clearInterval(timer); timer = null; }
   function resetTimer() { stopTimer(); startTimer(); }
 
   car.addEventListener('mouseenter', stopTimer);
   car.addEventListener('mouseleave', startTimer);
 
+  /* Init */
+  applyWidths();
   goTo(0);
   startTimer();
 })();

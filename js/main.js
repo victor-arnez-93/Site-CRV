@@ -197,7 +197,6 @@ const animateElements = document.querySelectorAll(`
     .servico-card,
     .projeto-card,
     .mvv-card-compact,
-    .stat-item,
     .outro-item,
     .porque-item-inline,
     .info-item
@@ -209,6 +208,32 @@ animateElements.forEach(el => {
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
 });
+
+// Entrada especial das fotos da equipe
+const blocoEquipe = document.querySelector('#sobre .sobre-images');
+const reduzirMovimento = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+).matches;
+
+if (blocoEquipe && !reduzirMovimento && 'IntersectionObserver' in window) {
+    blocoEquipe.classList.add('animacao-preparada');
+
+    const equipeObserver = new IntersectionObserver((entries, observerEquipe) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observerEquipe.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -60px 0px'
+    });
+
+    equipeObserver.observe(blocoEquipe);
+} else if (blocoEquipe) {
+    blocoEquipe.classList.add('is-visible');
+}
 
 // ============================================
 // VALIDAÇÃO DE EMAIL
@@ -227,46 +252,6 @@ emailInput.addEventListener('blur', (e) => {
         e.target.style.borderColor = '';
         e.target.style.boxShadow = '';
     }
-});
-
-// ============================================
-// COUNTER ANIMATION (Stats)
-// ============================================
-
-function animateCounter(element, target, duration = 2000) {
-    const start = 0;
-    const increment = target / (duration / 16);
-    let current = start;
-
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target;
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(current);
-        }
-    }, 16);
-}
-
-// Observar stats para animar quando visíveis
-const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-            const numberElement = entry.target.querySelector('h3');
-            const targetValue = numberElement.textContent.replace(/\D/g, '');
-
-            // Se for número
-            if (!isNaN(targetValue) && targetValue !== '') {
-                animateCounter(numberElement, parseInt(targetValue));
-                entry.target.classList.add('counted');
-            }
-        }
-    });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.stat-item').forEach(stat => {
-    statsObserver.observe(stat);
 });
 
 // ============================================

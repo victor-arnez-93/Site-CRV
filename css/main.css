@@ -679,47 +679,6 @@ section > .container {
     line-height: 1.8;
 }
 
-.sobre-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 32px;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 24px;
-    background: rgba(14, 165, 233, 0.1);
-    border: 2px solid rgba(14, 165, 233, 0.3);
-    border-radius: 16px;
-    transition: var(--trans);
-}
-
-.stat-item:hover {
-    background: rgba(14, 165, 233, 0.2);
-    border-color: var(--cor-primaria);
-    box-shadow: var(--neon-azul);
-    transform: translateY(-5px);
-}
-
-.stat-item i {
-    font-size: 48px;
-    color: var(--cor-primaria);
-    margin-bottom: 16px;
-}
-
-.stat-item h3 {
-    font-family: var(--font-accent);
-    font-size: 36px;
-    color: var(--cor-secundaria);
-    margin-bottom: 8px;
-}
-
-.stat-item p {
-    font-size: 14px;
-    text-align: center;
-}
-
 /* Sobre Images */
 .sobre-images {
     position: relative;
@@ -763,6 +722,82 @@ section > .container {
     border-color: var(--cor-primaria);
     box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
     transform: translateY(-5px);
+}
+
+/* Entrada animada da equipe */
+.sobre-images.animacao-preparada .img-main {
+    opacity: 0;
+    transform: translateX(70px) scale(0.96);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(.22, 1, .36, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.sobre-images.animacao-preparada .image-secondary img {
+    opacity: 0;
+    transform: translate(-480px, 70px) scale(0.86);
+    transition:
+        opacity 0.7s ease,
+        transform 0.9s cubic-bezier(.22, 1, .36, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Foto principal chegando pela direita */
+.sobre-images.animacao-preparada.is-visible .img-main {
+    opacity: 1;
+    transform: none;
+}
+
+/* Fotos individuais vindo da antiga área dos números */
+.sobre-images.animacao-preparada.is-visible .image-secondary img {
+    opacity: 1;
+    transform: none;
+}
+
+.sobre-images.animacao-preparada.is-visible .image-secondary img:nth-child(1) {
+    transition-delay: 0.20s;
+}
+
+.sobre-images.animacao-preparada.is-visible .image-secondary img:nth-child(2) {
+    transition-delay: 0.38s;
+}
+
+.sobre-images.animacao-preparada.is-visible .image-secondary img:nth-child(3) {
+    transition-delay: 0.56s;
+}
+
+/* Preserva os efeitos de hover depois da entrada */
+.sobre-images.animacao-preparada.is-visible .img-main:hover {
+    transform: scale(1.02);
+}
+
+.sobre-images.animacao-preparada.is-visible .image-secondary img:hover {
+    transform: translateY(-5px);
+}
+
+/* No mobile, evita que as fotos atravessem a tela lateralmente */
+@media only screen and (max-width: 768px) {
+    .sobre-images.animacao-preparada .img-main,
+    .sobre-images.animacao-preparada .image-secondary img {
+        transform: translateY(45px) scale(0.94);
+    }
+
+    .sobre-images.animacao-preparada.is-visible .img-main,
+    .sobre-images.animacao-preparada.is-visible .image-secondary img {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sobre-images.animacao-preparada .img-main,
+    .sobre-images.animacao-preparada .image-secondary img {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
 
 /* ============================================
